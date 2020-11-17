@@ -1,0 +1,27 @@
+{
+	"name": "ibp-node-sdk",
+	"version": "0.1.0",
+	"license": "SEE LICENSE IN license file",
+	"scripts": {
+		"prepublish": "npm run build",
+		"build": "tsc",
+		"test": "node ./test/manual.js"
+	},
+	"engines": {
+		"node": "^12.16.0"
+	},
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:IBM-Blockchain/ibp-node-sdk.git"
+	},
+	"dependencies": {
+		"@types/extend": "^3.0.1",
+		"extend": "^3.0.2",
+		"ibm-cloud-sdk-core": "2.7.*"
+	},
+	"devDependencies": {
+		"typescript": "^4.0.5"
+	}
+}
