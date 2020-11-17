@@ -13,6 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-export import BlockchainV3 = require("./blockchain/v3");
-export * from 'ibm-cloud-sdk-core';				// https://github.com/IBM/node-sdk-core
+export declare type SdkHeaders = {
+    'User-Agent': string;
+    'X-IBMCloud-SDK-Analytics': string;
+};
+/**
+ * Get the request headers to be sent in requests by the SDK.
+ */
+export declare function getSdkHeaders(serviceName: string, serviceVersion: string, operationId: string): SdkHeaders | {};
