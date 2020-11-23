@@ -3411,7 +3411,7 @@ describe('BlockchainV3', () => {
 			test('should pass the right params to createRequest', () => {
 				// Construct the params object for operation submitBlock
 				const id = 'testString';
-				const b64Block = 'bWFzc2l2ZSBiaW5hcnkgb2YgYSBjb25maWcgYmxvY2sgd291bGQgYmUgaGVyZSBpZiB0aGlzIHdhcyByZWFs';
+				const b64Block = 'bWFzc2l2ZSBiaW5hcnkgb2YgYSBjb25maWcgYmxvY2sgd291bGQgYmUgaGVyZSBpZiB0aGlzIHdhcyByZWFsLCBwbGVhc2UgZG9udCBzZW5kIHRoaXM=';
 				const params = {
 					id: id,
 					b64Block: b64Block,
@@ -3929,10 +3929,10 @@ describe('BlockchainV3', () => {
 			});
 		});
 	});
-	describe('getComponentByTag', () => {
+	describe('getComponentsByTag', () => {
 		describe('positive tests', () => {
 			test('should pass the right params to createRequest', () => {
-				// Construct the params object for operation getComponentByTag
+				// Construct the params object for operation getComponentsByTag
 				const tag = 'testString';
 				const deploymentAttrs = 'included';
 				const parsedCerts = 'included';
@@ -3944,10 +3944,10 @@ describe('BlockchainV3', () => {
 					cache: cache,
 				};
 
-				const getComponentByTagResult = blockchainService.getComponentByTag(params);
+				const getComponentsByTagResult = blockchainService.getComponentsByTag(params);
 
 				// all methods should return a Promise
-				expectToBePromise(getComponentByTagResult);
+				expectToBePromise(getComponentsByTagResult);
 
 				// assert that create request was called
 				expect(createRequestMock).toHaveBeenCalledTimes(1);
@@ -3977,7 +3977,7 @@ describe('BlockchainV3', () => {
 					},
 				};
 
-				blockchainService.getComponentByTag(params);
+				blockchainService.getComponentsByTag(params);
 				checkMediaHeaders(createRequestMock, userAccept, userContentType);
 			});
 		});
@@ -3986,7 +3986,7 @@ describe('BlockchainV3', () => {
 			test('should enforce required parameters', async done => {
 				let err;
 				try {
-					await blockchainService.getComponentByTag({});
+					await blockchainService.getComponentsByTag({});
 				} catch (e) {
 					err = e;
 				}
@@ -3996,10 +3996,10 @@ describe('BlockchainV3', () => {
 			});
 
 			test('should reject promise when required params are not given', done => {
-				const getComponentByTagPromise = blockchainService.getComponentByTag();
-				expectToBePromise(getComponentByTagPromise);
+				const getComponentsByTagPromise = blockchainService.getComponentsByTag();
+				expectToBePromise(getComponentsByTagPromise);
 
-				getComponentByTagPromise.catch(err => {
+				getComponentsByTagPromise.catch(err => {
 					expect(err.message).toMatch(/Missing required parameters/);
 					done();
 				});

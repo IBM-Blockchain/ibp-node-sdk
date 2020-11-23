@@ -1722,7 +1722,7 @@ class BlockchainV3 extends BaseService {
 	 * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
 	 * @returns {Promise<BlockchainV3.Response<BlockchainV3.GetMultiComponentsResponse>>}
 	 */
-	public getComponentByTag(params: BlockchainV3.GetComponentByTagParams): Promise<BlockchainV3.Response<BlockchainV3.GetMultiComponentsResponse>> {
+	public getComponentsByTag(params: BlockchainV3.GetComponentsByTagParams): Promise<BlockchainV3.Response<BlockchainV3.GetMultiComponentsResponse>> {
 		const _params = Object.assign({}, params);
 		const requiredParams = ['tag'];
 
@@ -1741,7 +1741,7 @@ class BlockchainV3 extends BaseService {
 			'tag': _params.tag
 		};
 
-		const sdkHeaders = getSdkHeaders(BlockchainV3.DEFAULT_SERVICE_NAME, 'v3', 'getComponentByTag');
+		const sdkHeaders = getSdkHeaders(BlockchainV3.DEFAULT_SERVICE_NAME, 'v3', 'getComponentsByTag');
 
 		const parameters = {
 			options: {
@@ -3185,8 +3185,8 @@ namespace BlockchainV3 {
 		}
 	}
 
-	/** Parameters for the `getComponentByTag` operation. */
-	export interface GetComponentByTagParams {
+	/** Parameters for the `getComponentsByTag` operation. */
+	export interface GetComponentsByTagParams {
 		/** The tag to filter components on. Not case-sensitive. */
 		tag: string;
 		/** Set to 'included' if the response should include Kubernetes deployment attributes such as 'resources',
@@ -3196,21 +3196,21 @@ namespace BlockchainV3 {
 		 *
 		 *  It's recommended to use `cache=skip` as well if up-to-date deployment data is needed.
 		 */
-		deploymentAttrs?: GetComponentByTagConstants.DeploymentAttrs | string;
+		deploymentAttrs?: GetComponentsByTagConstants.DeploymentAttrs | string;
 		/** Set to 'included' if the response should include parsed PEM data along with base 64 encoded PEM string.
 		 *  Parsed certificate data will include fields such as the serial number, issuer, expiration, subject, subject alt
 		 *  names, etc. Default responses will not include these fields.
 		 */
-		parsedCerts?: GetComponentByTagConstants.ParsedCerts | string;
+		parsedCerts?: GetComponentsByTagConstants.ParsedCerts | string;
 		/** Set to 'skip' if the response should skip local data and fetch live data wherever possible. Expect longer
 		 *  response times if the cache is skipped. Default responses will use the cache.
 		 */
-		cache?: GetComponentByTagConstants.Cache | string;
+		cache?: GetComponentsByTagConstants.Cache | string;
 		headers?: OutgoingHttpHeaders;
 	}
 
-	/** Constants for the `getComponentByTag` operation. */
-	export namespace GetComponentByTagConstants {
+	/** Constants for the `getComponentsByTag` operation. */
+	export namespace GetComponentsByTagConstants {
 		/** Set to 'included' if the response should include Kubernetes deployment attributes such as 'resources', 'storage', 'zone', 'region', 'admin_certs', etc. Default responses will not include these fields. **This parameter will not work on *imported* components.** It's recommended to use `cache=skip` as well if up-to-date deployment data is needed. */
 		export enum DeploymentAttrs {
 			INCLUDED = 'included',
