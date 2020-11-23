@@ -1582,7 +1582,7 @@ var BlockchainV3 = /** @class */ (function (_super) {
      * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
      * @returns {Promise<BlockchainV3.Response<BlockchainV3.GetMultiComponentsResponse>>}
      */
-    BlockchainV3.prototype.getComponentByTag = function (params) {
+    BlockchainV3.prototype.getComponentsByTag = function (params) {
         var _params = Object.assign({}, params);
         var requiredParams = ['tag'];
         var missingParams = ibm_cloud_sdk_core_1.getMissingParams(_params, requiredParams);
@@ -1597,7 +1597,7 @@ var BlockchainV3 = /** @class */ (function (_super) {
         var path = {
             'tag': _params.tag
         };
-        var sdkHeaders = common_1.getSdkHeaders(BlockchainV3.DEFAULT_SERVICE_NAME, 'v3', 'getComponentByTag');
+        var sdkHeaders = common_1.getSdkHeaders(BlockchainV3.DEFAULT_SERVICE_NAME, 'v3', 'getComponentsByTag');
         var parameters = {
             options: {
                 url: '/ak/api/v3/components/tags/{tag}',
@@ -2327,28 +2327,28 @@ var BlockchainV3 = /** @class */ (function (_super) {
             Cache["USE"] = "use";
         })(Cache = GetComponentsByTypeConstants.Cache || (GetComponentsByTypeConstants.Cache = {}));
     })(GetComponentsByTypeConstants = BlockchainV3.GetComponentsByTypeConstants || (BlockchainV3.GetComponentsByTypeConstants = {}));
-    /** Constants for the `getComponentByTag` operation. */
-    var GetComponentByTagConstants;
-    (function (GetComponentByTagConstants) {
+    /** Constants for the `getComponentsByTag` operation. */
+    var GetComponentsByTagConstants;
+    (function (GetComponentsByTagConstants) {
         /** Set to 'included' if the response should include Kubernetes deployment attributes such as 'resources', 'storage', 'zone', 'region', 'admin_certs', etc. Default responses will not include these fields. **This parameter will not work on *imported* components.** It's recommended to use `cache=skip` as well if up-to-date deployment data is needed. */
         var DeploymentAttrs;
         (function (DeploymentAttrs) {
             DeploymentAttrs["INCLUDED"] = "included";
             DeploymentAttrs["OMITTED"] = "omitted";
-        })(DeploymentAttrs = GetComponentByTagConstants.DeploymentAttrs || (GetComponentByTagConstants.DeploymentAttrs = {}));
+        })(DeploymentAttrs = GetComponentsByTagConstants.DeploymentAttrs || (GetComponentsByTagConstants.DeploymentAttrs = {}));
         /** Set to 'included' if the response should include parsed PEM data along with base 64 encoded PEM string. Parsed certificate data will include fields such as the serial number, issuer, expiration, subject, subject alt names, etc. Default responses will not include these fields. */
         var ParsedCerts;
         (function (ParsedCerts) {
             ParsedCerts["INCLUDED"] = "included";
             ParsedCerts["OMITTED"] = "omitted";
-        })(ParsedCerts = GetComponentByTagConstants.ParsedCerts || (GetComponentByTagConstants.ParsedCerts = {}));
+        })(ParsedCerts = GetComponentsByTagConstants.ParsedCerts || (GetComponentsByTagConstants.ParsedCerts = {}));
         /** Set to 'skip' if the response should skip local data and fetch live data wherever possible. Expect longer response times if the cache is skipped. Default responses will use the cache. */
         var Cache;
         (function (Cache) {
             Cache["SKIP"] = "skip";
             Cache["USE"] = "use";
-        })(Cache = GetComponentByTagConstants.Cache || (GetComponentByTagConstants.Cache = {}));
-    })(GetComponentByTagConstants = BlockchainV3.GetComponentByTagConstants || (BlockchainV3.GetComponentByTagConstants = {}));
+        })(Cache = GetComponentsByTagConstants.Cache || (GetComponentsByTagConstants.Cache = {}));
+    })(GetComponentsByTagConstants = BlockchainV3.GetComponentsByTagConstants || (BlockchainV3.GetComponentsByTagConstants = {}));
     /** Constants for the `getFabVersions` operation. */
     var GetFabVersionsConstants;
     (function (GetFabVersionsConstants) {

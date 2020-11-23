@@ -4,21 +4,18 @@ Node client library to use the IBM Cloud Blockchain **Service**.
 
 **This module will allow you to use native js functions to leverage the same functionality seen in the [IBP APIs](https://cloud.ibm.com/apidocs/blockchain)**
 
-
-**PRE-RELEASED (11/23/2020)** - this is still a work in progress.
-
 <details>
 <summary>Table of Contents</summary>
 
 * [Overview](#overview)
 * [Prerequisites](#prerequisites)
 * [Installation](#installation)
+* [Explore the SDK](#explore-the-sdk)
 * [Using the SDK](#using-the-sdk)
   * [Constructing service clients](#constructing-service-clients)
   * [Authentication](#authentication)
   * [Receiving operation responses](#receiving-operation-responses)
   * [Error Handling](#error-handling)
-* [Explore the SDK](#explore-the-sdk)
 * [Generation](#generation)
 * [License](#license)
 
@@ -35,12 +32,19 @@ Any issues with this SDK can be opened here or against the IBM Blockchain Platfo
 
 ## Prerequisites
 
-[ibm-cloud-onboarding]: https://cloud.ibm.com/registration?target=%2Fdeveloper%2Fwatson&
+[ibm-cloud-onboarding]: https://cloud.ibm.com/registration
 
 * An [IBM Cloud][ibm-cloud-onboarding] account.
 * An [IBM Blockchain Platform Service instance](https://cloud.ibm.com/catalog/services/blockchain-platform)
 * An IAM API key to allow the SDK to access your service instance. Create an account level api key [here](https://cloud.ibm.com/iam/apikeys) (alternatively you can create a service instance level api key from the IBM cloud UI).
 * An installation of Node (version 10 or above) on your local machine.
+
+## Installation
+Use this command to download and install the Blockchain Node SDK project.
+Once this is done your Node application will be able to use it:
+```
+npm i ibp-node-sdk
+```
 
 ## Explore the SDK
 This module is generated from an OpenAPI (swagger) file.
@@ -52,21 +56,14 @@ Alternatively you could manually browse the SDK's main file:
 
 - [blockchain/v3.ts](./blockchain/v3.ts).
 
-## Installation
-Use this command to download and install the Blockchain Node SDK project.
-Once this is done your Node application will be able to use it:
-```
-npm i ibp-node-sdk
-```
-
 ## Using the SDK
 This section provides general information on how to use the services contained in this SDK.
 
 ### Constructing service clients
 Start by requiring the IBP Node SDK and then creating a `client`.
-Here's an example of how to construct an instance of "My Service":
+Here's an example of how to construct an instance:
 ```js
-const ibp = require('ibp-node-sdk);
+const ibp = require('ibp-node-sdk');
 
 // Create an authenticator.
 /* create an authenticator - see more examples below */
@@ -103,9 +100,8 @@ For details, see [Authenticating with IAM tokens](https://cloud.ibm.com/docs/ser
 
 ```js
 // letting the SDK manage the IAM access token
-const ibp = require('ibp-node-sdk);
+const ibp = require('ibp-node-sdk');
 
-...
 // Create the IAM authenticator.
 const authenticator = new ibp.IamAuthenticator({
 	apikey: '{API-Key}',
@@ -122,9 +118,8 @@ const client = ibp.BlockchainV3.newInstance({
 * Supplying the access token (a bearer token) and managing it yourself:
 
 ```js
-const ibp = require('ibp-node-sdk);
+const ibp = require('ibp-node-sdk');
 
-...
 // Create the BearerToken authenticator.
 const authenticator = new ibp.IamAuthenticator({
 	bearertoken: '{my IAM access token}',
@@ -144,7 +139,7 @@ authenticator.bearertoken = /* new access token */
 ```
 For more information on authentication, including the full set of authentication schemes supported by
 the underlying Node Core library, see
-[this page](https://github.com/IBM/node-sdk-core/blob/master/AUTHENTICATION.md)
+[this page](https://github.com/IBM/node-sdk-core/blob/master/AUTHENTICATION.md).
 
 ### Receiving operation responses
 
@@ -169,13 +164,17 @@ const client = ibp.BlockchainV3.newInstance({
 	url: 'https://{API-Endpoint}',
 });
 
-// Get data for component "{Component-ID}"
+// Get data for component
 try {
 	const response = await client.getComponent({ id: '{Component-ID}' });
-	console.log('response:', response.result);
+	console.log('status code:', resp.status);
+	console.log('response headers:', resp.headers);
+	console.log('response:', resp.result);
 	// handle good response here
 } catch (e) {
-	console.error('error response:', e.body);
+	console.error('status code:', e.status);
+	console.error('response headers:', e.headers);
+	console.error('response:', e.body);
 	// handle error here
 }
 ```
@@ -183,7 +182,7 @@ try {
 ### Error Handling
 
 In the case of an error response from the server endpoint, the Blockchain Node SDK will do the following:
-1. The service method (operation) will return a throw an `error`.  This `error` object will
+1. The service method (operation) will throw an `error`.  This `error` object will
 contain the error message retrieved from the HTTP response if possible, or a generic error message
 otherwise.
 2. The `error.body` field will contain the response if the operation returned a JSON response.
@@ -202,7 +201,7 @@ This is a note for developers of this repository on how to rebuild the SDK.
 ```
 cd code/openapi-sdkgen
 java -jar C:/code/openapi-sdkgen/lib/openapi-sdkgen-3.19.0.jar generate -g ibm-node --additional-properties initialize=true -i C:/code/cloud-api-docs/ibp.yaml -o C:/code/openapi-sdkgen/node_build --apiref C:/code/cloud-api-docs/apiref-node.json && cp -r C:/code/openapi-sdkgen/node_build/blockchain C:/code/ibp-node-sdk && cp -r C:/code/openapi-sdkgen/node_build/test C:/code/ibp-node-sdk
-// inspect the output files in make a PRy to this repo if they look okay
+// inspect the output files in make a PR to this repo if they look okay
 ```
 
 ## License

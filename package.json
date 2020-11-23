@@ -5,7 +5,9 @@
 	"scripts": {
 		"prepublish": "npm run build",
 		"build": "tsc",
-		"test": "node ./test/manual.js"
+		"test": "jest test/unit/",
+		"test_e2e": "jest test/e2e/ --runInBand",
+		"test_script": "node ./test/manual.js"
 	},
 	"engines": {
 		"node": "^10.23.0"
@@ -19,7 +21,8 @@
 	"dependencies": {
 		"@types/extend": "^3.0.1",
 		"extend": "^3.0.2",
-		"ibm-cloud-sdk-core": "2.7.*"
+		"ibm-cloud-sdk-core": "2.7.*",
+		"jest": "^25.5.4"
 	},
 	"devDependencies": {
 		"typescript": "^4.0.5"

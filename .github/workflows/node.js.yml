@@ -18,6 +18,12 @@ jobs:
       matrix:
         node-version: [10.x, 12.x, 14.x]
 
+    env:  # set environment variables for test suite
+      TEST: ${{ secrets.TEST }}
+      TEST2: AnotherTest
+      IAM_API_KEY: ${{ secrets.IAM_API_KEY }}
+      IBP_SERVICE_INSTANCE_URL: ${{ secrets.IBP_SERVICE_INSTANCE_URL }}
+
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
@@ -26,5 +32,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm install --production
     - run: npm run build
-    - run: npm test
+    - run: npm test         # unit tests
+    #- run: npm test_e2e     # end to end tests, sequential
     - run: npm audit --production
