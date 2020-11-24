@@ -1,6 +1,5 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: Node.js CI
 
 on:
@@ -15,12 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      max-parallel: 1 # since the e2e tests creates and deletes components, can only run the tests sequentially
       matrix:
-        node-version: [10.x, 12.x, 14.x]
+        node-version: [12.x, 14.x]
 
     env:  # set environment variables for test suite
-      TEST: ${{ secrets.TEST }}
-      TEST2: AnotherTest
       IAM_API_KEY: ${{ secrets.IAM_API_KEY }}
       IBP_SERVICE_INSTANCE_URL: ${{ secrets.IBP_SERVICE_INSTANCE_URL }}
 
@@ -32,6 +30,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm install --production
     - run: npm run build
-    - run: npm test         # unit tests
-    #- run: npm test_e2e     # end to end tests, sequential
+    - run: npm run test         # unit tests
+    - run: npm run test_e2e     # end to end tests, sequential
     - run: npm audit --production

@@ -37,7 +37,7 @@ Any issues with this SDK can be opened here or against the IBM Blockchain Platfo
 * An [IBM Cloud][ibm-cloud-onboarding] account.
 * An [IBM Blockchain Platform Service instance](https://cloud.ibm.com/catalog/services/blockchain-platform)
 * An IAM API key to allow the SDK to access your service instance. Create an account level api key [here](https://cloud.ibm.com/iam/apikeys) (alternatively you can create a service instance level api key from the IBM cloud UI).
-* An installation of Node (version 10 or above) on your local machine.
+* An installation of Node (version 12 or above) on your local machine.
 
 ## Installation
 Use this command to download and install the Blockchain Node SDK project.

@@ -40,3 +40,35 @@ export function getSdkHeaders(serviceName: string, serviceVersion: string, opera
 
 	return headers;
 }
+
+
+// add camelCase clones of all snake case fields (applies to outer elements only)
+export function fixCase(orig: any): any {
+	if (typeof orig !== 'object') {
+		return orig;
+	} else {
+		const ret: any = JSON.parse(JSON.stringify(orig));									// clone
+
+		if (Array.isArray(orig)) {															// if its an array, return as is
+			return orig;
+		} else {
+			for (let key in orig) {
+				const parts = key.split('_');
+				const formatted = [];														// ts won't let me overwrite parts
+				for (let i in parts) {
+					if (Number(i) === 0) {
+						formatted.push(parts[i]);											// first word is already good
+					} else {
+						formatted.push(parts[i][0].toUpperCase() + parts[i].substring(1));	// convert first letter to uppercase
+					}
+				}
+
+				if (formatted.length > 0) {
+					const newKey = formatted.join('');
+					ret[newKey] = orig[key];
+				}
+			}
+		}
+		return ret;
+	}
+}
