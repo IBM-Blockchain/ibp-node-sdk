@@ -21,3 +21,4 @@ export declare type SdkHeaders = {
  * Get the request headers to be sent in requests by the SDK.
  */
 export declare function getSdkHeaders(serviceName: string, serviceVersion: string, operationId: string): SdkHeaders | {};
+export declare function fixCase(orig: any): any;

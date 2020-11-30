@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSdkHeaders = void 0;
+exports.fixCase = exports.getSdkHeaders = void 0;
 var os = require("os");
 // tslint:disable-next-line:no-var-requires
 var pkg = require(__dirname + '/../../package.json');
@@ -35,3 +35,35 @@ function getSdkHeaders(serviceName, serviceVersion, operationId) {
     return headers;
 }
 exports.getSdkHeaders = getSdkHeaders;
+// add camelCase clones of all snake case fields (applies to outer elements only)
+function fixCase(orig) {
+    if (typeof orig !== 'object') {
+        return orig;
+    }
+    else {
+        var ret = JSON.parse(JSON.stringify(orig)); // clone
+        if (Array.isArray(orig)) { // if its an array, return as is
+            return orig;
+        }
+        else {
+            for (var key in orig) {
+                var parts = key.split('_');
+                var formatted = []; // ts won't let me overwrite parts
+                for (var i in parts) {
+                    if (Number(i) === 0) {
+                        formatted.push(parts[i]); // first word is already good
+                    }
+                    else {
+                        formatted.push(parts[i][0].toUpperCase() + parts[i].substring(1)); // convert first letter to uppercase
+                    }
+                }
+                if (formatted.length > 0) {
+                    var newKey = formatted.join('');
+                    ret[newKey] = orig[key];
+                }
+            }
+        }
+        return ret;
+    }
+}
+exports.fixCase = fixCase;
