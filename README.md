@@ -99,7 +99,7 @@ For details, see [Authenticating with IAM tokens](https://cloud.ibm.com/docs/ser
 * Supplying the IAM API key and letting the SDK manage the access token for you:
 
 ```js
-// letting the SDK manage the IAM access token
+// Example - letting the SDK manage the IAM access token
 const ibp = require('ibp-node-sdk');
 
 // Create the IAM authenticator.
@@ -118,6 +118,7 @@ const client = ibp.BlockchainV3.newInstance({
 * Supplying the access token (a bearer token) and managing it yourself:
 
 ```js
+// Example - manage the IAM access token myself
 const ibp = require('ibp-node-sdk');
 
 // Create the BearerToken authenticator.
@@ -132,11 +133,13 @@ const client = ibp.BlockchainV3.newInstance({
 });
 
 ...
+
 // Later when the access token expires, the application must refresh the access token,
 // then set the new access token on the authenticator.
 // Subsequent request invocations will include the new access token.
 authenticator.bearertoken = /* new access token */
 ```
+
 For more information on authentication, including the full set of authentication schemes supported by
 the underlying Node Core library, see
 [this page](https://github.com/IBM/node-sdk-core/blob/master/AUTHENTICATION.md).
@@ -144,11 +147,9 @@ the underlying Node Core library, see
 ### Receiving operation responses
 
 Each service method (operation) will return the following values:
-* `result` - An operation-specific result (if the operation is defined as returning a result).
-* `status` - the HTTP status code returned in the response message
-* `headers` - the HTTP headers returned in the response message
-* `result` - the operation result (if available). This is the same value returned in the `result` return value
-mentioned above.
+* `response.result` - An operation-specific result (if the operation is defined as returning a result).
+* `response.status` - the HTTP status code returned in the response message
+* `response.headers` - the HTTP headers returned in the response message
 
 ##### Example:
 1. Here's an example of calling the `GetComponent` operation:
@@ -182,12 +183,11 @@ try {
 ### Error Handling
 
 In the case of an error response from the server endpoint, the Blockchain Node SDK will do the following:
-1. The service method (operation) will throw an `error`.  This `error` object will
+1. The service method (operation) will throw an error `e`.  This `e` object will
 contain the error message retrieved from the HTTP response if possible, or a generic error message
 otherwise.
-2. The `error.body` field will contain the response if the operation returned a JSON response.
-This allows the application to examine all of the error information returned in the HTTP
-response message.
+2. The `e.body` field will contain the (response if the operation returned a response).
+3. The `e.status` field will contain the HTTP response code.
 
 ## Generation
 This is a note for developers of this repository on how to rebuild the SDK.
