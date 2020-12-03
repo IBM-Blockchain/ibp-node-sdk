@@ -28,7 +28,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install --production
+    - run: npm install
     - run: npm run build
     - run: npm run test         # unit tests
     - run: npm run test_e2e     # end to end tests, sequential
