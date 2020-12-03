@@ -262,7 +262,7 @@ describe('BlockchainV3', () => {
 		// ---- Get all CAs ----- //
 		test('should get all CAs', async () => {
 			const opts = {
-				componentType: 'fabric-ca',
+				type: 'fabric-ca',
 				deploymentAttrs: 'included'
 			};
 			const resp = await client.getComponentsByType(opts);

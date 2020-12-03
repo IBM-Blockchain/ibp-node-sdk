@@ -1645,7 +1645,7 @@ class BlockchainV3 extends BaseService {
 	 * Get the IBP console's data on components that are a specific type. The component might be imported or created.
 	 *
 	 * @param {Object} params - The parameters to send to the service.
-	 * @param {string} params.componentType - The type to filter components on.
+	 * @param {string} params.type - The type of component to filter components on.
 	 * @param {string} [params.deploymentAttrs] - Set to 'included' if the response should include Kubernetes deployment
 	 * attributes such as 'resources', 'storage', 'zone', 'region', 'admin_certs', etc. Default responses will not include
 	 * these fields.
@@ -1663,7 +1663,7 @@ class BlockchainV3 extends BaseService {
 	 */
 	public getComponentsByType(params: BlockchainV3.GetComponentsByTypeParams): Promise<BlockchainV3.Response<BlockchainV3.GetMultiComponentsResponse>> {
 		const _params = Object.assign({}, params);
-		const requiredParams = ['componentType'];
+		const requiredParams = ['type'];
 
 		const missingParams = getMissingParams(_params, requiredParams);
 		if (missingParams) {
@@ -1677,14 +1677,14 @@ class BlockchainV3 extends BaseService {
 		};
 
 		const path = {
-			'component-type': _params.componentType
+			'type': _params.type
 		};
 
 		const sdkHeaders = getSdkHeaders(BlockchainV3.DEFAULT_SERVICE_NAME, 'v3', 'getComponentsByType');
 
 		const parameters = {
 			options: {
-				url: '/ak/api/v3/components/types/{component-type}',
+				url: '/ak/api/v3/components/types/{type}',
 				method: 'GET',
 				qs: query,
 				path,
@@ -3137,8 +3137,8 @@ namespace BlockchainV3 {
 
 	/** Parameters for the `getComponentsByType` operation. */
 	export interface GetComponentsByTypeParams {
-		/** The type to filter components on. */
-		componentType: GetComponentsByTypeConstants.ComponentType | string;
+		/** The type of component to filter components on. */
+		type: GetComponentsByTypeConstants.Type | string;
 		/** Set to 'included' if the response should include Kubernetes deployment attributes such as 'resources',
 		 *  'storage', 'zone', 'region', 'admin_certs', etc. Default responses will not include these fields.
 		 *
@@ -3161,8 +3161,8 @@ namespace BlockchainV3 {
 
 	/** Constants for the `getComponentsByType` operation. */
 	export namespace GetComponentsByTypeConstants {
-		/** The type to filter components on. */
-		export enum ComponentType {
+		/** The type of component to filter components on. */
+		export enum Type {
 			FABRIC_PEER = 'fabric-peer',
 			FABRIC_ORDERER = 'fabric-orderer',
 			FABRIC_CA = 'fabric-ca',
@@ -4426,10 +4426,8 @@ namespace BlockchainV3 {
 
 	/** DeleteAllSessionsResponse. */
 	export interface DeleteAllSessionsResponse {
-		/** Response message. "ok" indicates the api completed successfully. */
+		/** Response message. Indicates the api completed successfully. */
 		message?: string;
-		/** How many session entries that were deleted. */
-		deleted?: number;
 	}
 
 	/** DeleteComponentResponse. */
