@@ -683,7 +683,7 @@ declare class BlockchainV3 extends BaseService {
      * Get the IBP console's data on components that are a specific type. The component might be imported or created.
      *
      * @param {Object} params - The parameters to send to the service.
-     * @param {string} params.componentType - The type to filter components on.
+     * @param {string} params.type - The type of component to filter components on.
      * @param {string} [params.deploymentAttrs] - Set to 'included' if the response should include Kubernetes deployment
      * attributes such as 'resources', 'storage', 'zone', 'region', 'admin_certs', etc. Default responses will not include
      * these fields.
@@ -1671,8 +1671,8 @@ declare namespace BlockchainV3 {
     }
     /** Parameters for the `getComponentsByType` operation. */
     interface GetComponentsByTypeParams {
-        /** The type to filter components on. */
-        componentType: GetComponentsByTypeConstants.ComponentType | string;
+        /** The type of component to filter components on. */
+        type: GetComponentsByTypeConstants.Type | string;
         /** Set to 'included' if the response should include Kubernetes deployment attributes such as 'resources',
          *  'storage', 'zone', 'region', 'admin_certs', etc. Default responses will not include these fields.
          *
@@ -1694,8 +1694,8 @@ declare namespace BlockchainV3 {
     }
     /** Constants for the `getComponentsByType` operation. */
     namespace GetComponentsByTypeConstants {
-        /** The type to filter components on. */
-        enum ComponentType {
+        /** The type of component to filter components on. */
+        enum Type {
             FABRIC_PEER = "fabric-peer",
             FABRIC_ORDERER = "fabric-orderer",
             FABRIC_CA = "fabric-ca",
@@ -2847,10 +2847,8 @@ declare namespace BlockchainV3 {
     }
     /** DeleteAllSessionsResponse. */
     interface DeleteAllSessionsResponse {
-        /** Response message. "ok" indicates the api completed successfully. */
+        /** Response message. Indicates the api completed successfully. */
         message?: string;
-        /** How many session entries that were deleted. */
-        deleted?: number;
     }
     /** DeleteComponentResponse. */
     interface DeleteComponentResponse {

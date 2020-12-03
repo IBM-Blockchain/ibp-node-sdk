@@ -1511,7 +1511,7 @@ var BlockchainV3 = /** @class */ (function (_super) {
      * Get the IBP console's data on components that are a specific type. The component might be imported or created.
      *
      * @param {Object} params - The parameters to send to the service.
-     * @param {string} params.componentType - The type to filter components on.
+     * @param {string} params.type - The type of component to filter components on.
      * @param {string} [params.deploymentAttrs] - Set to 'included' if the response should include Kubernetes deployment
      * attributes such as 'resources', 'storage', 'zone', 'region', 'admin_certs', etc. Default responses will not include
      * these fields.
@@ -1529,7 +1529,7 @@ var BlockchainV3 = /** @class */ (function (_super) {
      */
     BlockchainV3.prototype.getComponentsByType = function (params) {
         var _params = Object.assign({}, params);
-        var requiredParams = ['componentType'];
+        var requiredParams = ['type'];
         var missingParams = ibm_cloud_sdk_core_1.getMissingParams(_params, requiredParams);
         if (missingParams) {
             return Promise.reject(missingParams);
@@ -1540,12 +1540,12 @@ var BlockchainV3 = /** @class */ (function (_super) {
             'cache': _params.cache
         };
         var path = {
-            'component-type': _params.componentType
+            'type': _params.type
         };
         var sdkHeaders = common_1.getSdkHeaders(BlockchainV3.DEFAULT_SERVICE_NAME, 'v3', 'getComponentsByType');
         var parameters = {
             options: {
-                url: '/ak/api/v3/components/types/{component-type}',
+                url: '/ak/api/v3/components/types/{type}',
                 method: 'GET',
                 qs: query,
                 path: path,
@@ -2300,14 +2300,14 @@ var BlockchainV3 = /** @class */ (function (_super) {
     /** Constants for the `getComponentsByType` operation. */
     var GetComponentsByTypeConstants;
     (function (GetComponentsByTypeConstants) {
-        /** The type to filter components on. */
-        var ComponentType;
-        (function (ComponentType) {
-            ComponentType["FABRIC_PEER"] = "fabric-peer";
-            ComponentType["FABRIC_ORDERER"] = "fabric-orderer";
-            ComponentType["FABRIC_CA"] = "fabric-ca";
-            ComponentType["MSP"] = "msp";
-        })(ComponentType = GetComponentsByTypeConstants.ComponentType || (GetComponentsByTypeConstants.ComponentType = {}));
+        /** The type of component to filter components on. */
+        var Type;
+        (function (Type) {
+            Type["FABRIC_PEER"] = "fabric-peer";
+            Type["FABRIC_ORDERER"] = "fabric-orderer";
+            Type["FABRIC_CA"] = "fabric-ca";
+            Type["MSP"] = "msp";
+        })(Type = GetComponentsByTypeConstants.Type || (GetComponentsByTypeConstants.Type = {}));
         /** Set to 'included' if the response should include Kubernetes deployment attributes such as 'resources', 'storage', 'zone', 'region', 'admin_certs', etc. Default responses will not include these fields. **This parameter will not work on *imported* components.** It's recommended to use `cache=skip` as well if up-to-date deployment data is needed. */
         var DeploymentAttrs;
         (function (DeploymentAttrs) {
