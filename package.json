@@ -1,6 +1,6 @@
 {
 	"name": "ibp-node-sdk",
-	"version": "0.1.9",
+	"version": "0.1.10",
 	"license": "SEE LICENSE IN license file",
 	"scripts": {
 		"pub": "sh publish.sh",
