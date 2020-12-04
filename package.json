@@ -1,9 +1,10 @@
 {
 	"name": "ibp-node-sdk",
-	"version": "0.2.0",
+	"version": "0.1.2",
 	"license": "SEE LICENSE IN license file",
 	"scripts": {
 		"prepublish": "npm run build",
+		"publish": "sh publish.sh",
 		"build": "tsc",
 		"test": "jest test/unit/",
 		"test_e2e": "jest test/e2e/ --runInBand",
