@@ -21,16 +21,27 @@ NOTE: running this requires setting up a living IBP Console on IBM Cloud Staging
 - pass the IAM api key to use via GitHub secret "IAM_API_KEY"
 - pass the IBP Console url to use via GitHub secret "IBP_SERVICE_INSTANCE_URL"
 */
+
+// default to pull secrets from env
+let apikey = process.env.IAM_API_KEY;
+let siid_url = process.env.IBP_SERVICE_INSTANCE_URL;
+
+// try to pull secrets from local file, if not possible use env
+try{
+	apikey = require('./davids_secrets.json').apikey
+	siid_url = require('./davids_secrets.json').url
+} catch (e) {}
+
+
+// ------------------------ start ------------------------ //
 const ibp = require('../../dist/index.js');
 const authenticator = new ibp.IamAuthenticator({
-	apikey: process.env.IAM_API_KEY,
-	//apikey: require('./davids_secrets.json').apikey,
+	apikey: apikey,
 	url: 'https://identity-1.us-south.iam.test.cloud.ibm.com/identity/token'	// use IBM Cloud's STAGING IAM endpoint
 });
 const client = ibp.BlockchainV3.newInstance({
 	authenticator: authenticator,
-	url: process.env.IBP_SERVICE_INSTANCE_URL
-	//url: require('./davids_secrets.json').url,
+	url: siid_url
 });
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
@@ -141,14 +152,6 @@ describe('BlockchainV3', () => {
 			notifications = resp.result.notifications;
 		});
 
-		// ---- Delete signature collection ----- //
-		/* commented out b/c create api not exposed yet
-		test('should delete a signature collection', async () => {
-			const resp = await client.deleteSigTx({ id: 'asdf' });
-			expect(resp.status).toBe(200);
-		});
-		*/
-
 		// ---- Archive IBP console notifications ----- //
 		test('should archive IBP notifications', async () => {
 			const opts = {
@@ -162,6 +165,14 @@ describe('BlockchainV3', () => {
 			expect(resp.result).toHaveProperty('message');
 			expect(resp.result).toHaveProperty('details');
 		});
+
+		// ---- Delete signature collection ----- //
+		/* commented out b/c create api not exposed yet
+		test('should delete a signature collection', async () => {
+			const resp = await client.deleteSigTx({ id: 'asdf' });
+			expect(resp.status).toBe(200);
+		});
+		*/
 
 		// ---- Restart the IBP console ----- //
 		/* commented out b/c this restarts IBP and screws up other tests
@@ -213,7 +224,7 @@ describe('BlockchainV3', () => {
 			}
 		});
 
-		// ---- Get Postman collection ----- //
+		// ---- Get OpenAPI file ----- //
 		test('should get the v3 swagger/openapi file', async () => {
 			const resp = await client.getSwagger();
 			expect(resp.status).toBe(200);

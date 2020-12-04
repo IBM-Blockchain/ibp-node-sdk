@@ -21,16 +21,27 @@ NOTE: running this requires setting up a living IBP Console on IBM Cloud Staging
 - pass the IAM api key to use via GitHub secret "IAM_API_KEY"
 - pass the IBP Console url to use via GitHub secret "IBP_SERVICE_INSTANCE_URL"
 */
+
+// default to pull secrets from env
+let apikey = process.env.IAM_API_KEY;
+let siid_url = process.env.IBP_SERVICE_INSTANCE_URL;
+
+// try to pull secrets from local file, if not possible use env
+try{
+	apikey = require('./davids_secrets.json').apikey
+	siid_url = require('./davids_secrets.json').url
+} catch (e) {}
+
+
+// ------------------------ start ------------------------ //
 const ibp = require('../../dist/index.js');
 const authenticator = new ibp.IamAuthenticator({
-	apikey: process.env.IAM_API_KEY,
-	//apikey: require('./davids_secrets.json').apikey,
+	apikey: apikey,
 	url: 'https://identity-1.us-south.iam.test.cloud.ibm.com/identity/token'	// use IBM Cloud's STAGING IAM endpoint
 });
 const client = ibp.BlockchainV3.newInstance({
 	authenticator: authenticator,
-	url: process.env.IBP_SERVICE_INSTANCE_URL
-	//url: require('./davids_secrets.json').url,
+	url: siid_url
 });
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
@@ -137,7 +148,8 @@ describe('BlockchainV3', () => {
 		});
 
 		// ---- Update a CA ----- //
-		test('should update CA k8s resources', async () => {
+		// free clusters cannot update k8s resources
+		/*test('should update CA k8s resources', async () => {
 			const opts = {
 				id: created_ca_id,
 				resources: {
@@ -170,7 +182,7 @@ describe('BlockchainV3', () => {
 			//	cpu: '200m',
 			//	memory: '256Mi'
 			//}); // dsh todo fix this
-		});
+		});*/
 
 		// ---- Restart a CA ----- //
 		test('should restart CA', async () => {
@@ -259,6 +271,32 @@ describe('BlockchainV3', () => {
 			expect(resp.result.location).toBe('ibm_saas');
 		});
 
+		// ---- Get all Components (no deployment data) ----- //
+		test('should get all component data w/o dep data', async () => {
+			const opts = {
+				id: created_ca_id,
+				cache: 'skip'
+			};
+			const resp = await client.listComponents(opts);
+			expect(resp.status).toBe(200);
+			expect(resp.result).toHaveProperty('components');
+
+			resp.result = resp.result.components[0];
+			expect(resp.result).toHaveProperty('api_url');
+			expect(resp.result).toHaveProperty('config_override');
+			expect(resp.result).toHaveProperty('display_name');
+			expect(resp.result).toHaveProperty('id');
+			expect(resp.result).toHaveProperty('location');
+			expect(resp.result).toHaveProperty('msp');
+			expect(resp.result).toHaveProperty('operations_url');
+			expect(resp.result).toHaveProperty('scheme_version');
+			expect(resp.result).toHaveProperty('tags');
+			expect(resp.result).toHaveProperty('type');
+			expect(resp.result).toHaveProperty('timestamp');
+			expect(resp.result.id).toBe(created_ca_id);
+			expect(resp.result.location).toBe('ibm_saas');
+		});
+
 		// ---- Get all CAs ----- //
 		test('should get all CAs', async () => {
 			const opts = {
@@ -290,6 +328,7 @@ describe('BlockchainV3', () => {
 			expect(resp.result.tags).toMatchObject(['fabric-ca', 'ibm_saas']);
 			expect(resp.result.id).toBe(created_ca_id);
 			expect(resp.result.location).toBe('ibm_saas');
+			expect(resp.result.type).toBe('fabric-ca');
 		});
 
 		// ---- Get all saas components ----- //

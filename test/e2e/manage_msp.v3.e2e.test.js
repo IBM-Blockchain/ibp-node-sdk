@@ -21,16 +21,27 @@ NOTE: running this requires setting up a living IBP Console on IBM Cloud Staging
 - pass the IAM api key to use via GitHub secret "IAM_API_KEY"
 - pass the IBP Console url to use via GitHub secret "IBP_SERVICE_INSTANCE_URL"
 */
+
+// default to pull secrets from env
+let apikey = process.env.IAM_API_KEY;
+let siid_url = process.env.IBP_SERVICE_INSTANCE_URL;
+
+// try to pull secrets from local file, if not possible use env
+try{
+	apikey = require('./davids_secrets.json').apikey
+	siid_url = require('./davids_secrets.json').url
+} catch (e) {}
+
+
+// ------------------------ start ------------------------ //
 const ibp = require('../../dist/index.js');
 const authenticator = new ibp.IamAuthenticator({
-	apikey: process.env.IAM_API_KEY,
-	//apikey: require('./davids_secrets.json').apikey,
+	apikey: apikey,
 	url: 'https://identity-1.us-south.iam.test.cloud.ibm.com/identity/token'	// use IBM Cloud's STAGING IAM endpoint
 });
 const client = ibp.BlockchainV3.newInstance({
 	authenticator: authenticator,
-	url: process.env.IBP_SERVICE_INSTANCE_URL
-	//url: require('./davids_secrets.json').url,
+	url: siid_url
 });
 
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
@@ -68,7 +79,7 @@ describe('BlockchainV3', () => {
 				tlsRootCerts: [
 					'LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNEVENDQWJTZ0F3SUJBZ0lVVGJwSVdaUlRCcFV3SVhqZW9xQzlKSk56T2NFd0NnWUlLb1pJemowRUF3SXcKWlRFTE1Ba0dBMVVFQmhNQ1ZWTXhGekFWQmdOVkJBZ1REazV2Y25Sb0lFTmhjbTlzYVc1aE1SUXdFZ1lEVlFRSwpFd3RJZVhCbGNteGxaR2RsY2pFUE1BMEdBMVVFQ3hNR1JtRmljbWxqTVJZd0ZBWURWUVFERXcxdmNtY3hZMkV4CkxYUnNjMk5oTUI0WERUSXdNVEF4TXpFME5URXdNRm9YRFRNMU1UQXhNREUwTlRFd01Gb3daVEVMTUFrR0ExVUUKQmhNQ1ZWTXhGekFWQmdOVkJBZ1REazV2Y25Sb0lFTmhjbTlzYVc1aE1SUXdFZ1lEVlFRS0V3dEllWEJsY214bApaR2RsY2pFUE1BMEdBMVVFQ3hNR1JtRmljbWxqTVJZd0ZBWURWUVFERXcxdmNtY3hZMkV4TFhSc2MyTmhNRmt3CkV3WUhLb1pJemowQ0FRWUlLb1pJemowREFRY0RRZ0FFVS9LZTFMNTdxQlNycTcrK0d3eU5oTTR2eEc2WWtEUVoKNHFMR25yOTBYNTBJYjlOTUhyWVpXam5kNXpoZE5JTlJYZnowOTJDZkYvYlRGM3BuMnRvK3RxTkNNRUF3RGdZRApWUjBQQVFIL0JBUURBZ0VHTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3SFFZRFZSME9CQllFRkRzY2lSL3Z1TGcyCmZzQ05jU0dQc1RoUTY5WEFNQW9HQ0NxR1NNNDlCQU1DQTBjQU1FUUNJREd4MG5ZVmtRK2Y4T0RmL3lyQUdvSEkKSGhQbU42OUtCL3djRzM2RG5tRWxBaUI3dHczT3pYNldLVmFiSm9XelpRNExWNlJhRnJtMFpPVGhxWk5CbVVSdAo4Zz09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K'
 				]
-			};;
+			};
 			const resp = await client.importMsp(opts);
 			expect(resp.status).toBe(200);
 			delete resp.result.timestamp;
@@ -127,6 +138,7 @@ describe('BlockchainV3', () => {
 			});
 		});
 
+		// ---- Get MSP ----- //
 		test('should get imported MSP cert', async () => {
 			const opts = {
 				mspId: 'org1',
