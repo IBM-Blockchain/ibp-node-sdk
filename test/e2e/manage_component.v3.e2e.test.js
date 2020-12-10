@@ -240,7 +240,6 @@ describe('BlockchainV3', () => {
 		// ---- Get all Components ----- //
 		test('should get all component data', async () => {
 			const opts = {
-				id: created_ca_id,
 				deploymentAttrs: 'included',
 				cache: 'skip'
 			};
@@ -274,7 +273,6 @@ describe('BlockchainV3', () => {
 		// ---- Get all Components (no deployment data) ----- //
 		test('should get all component data w/o dep data', async () => {
 			const opts = {
-				id: created_ca_id,
 				cache: 'skip'
 			};
 			const resp = await client.listComponents(opts);
