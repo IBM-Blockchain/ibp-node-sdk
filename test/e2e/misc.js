@@ -105,5 +105,19 @@ module.exports = function () {
 		}
 	}
 
+	// ------------------------------------------
+	// format SDK error response like the success response
+	// ------------------------------------------
+	exports.format_error = function (e_obj) {
+		try {
+			return {
+				"status": e_obj.status,
+				"result": JSON.parse(e_obj.body)
+			}
+		} catch (e) {
+			return null;
+		}
+	}
+
 	return exports;
 };

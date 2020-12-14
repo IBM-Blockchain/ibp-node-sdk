@@ -91,7 +91,7 @@ describe('BlockchainV3', () => {
 				//console.error('response:', JSON.parse(e.body));
 				expect(e.status).toBe(404);
 				expect(JSON.parse(e.body).msg).toBe('no components by this id exist');
-				misc.record_api({ name: 'caAction-fail', input: opts, response: JSON.parse(e.body) });
+				misc.record_api({ name: 'caAction-fail', input: opts, response: misc.format_error(e) });
 			}
 		});
 
@@ -107,7 +107,7 @@ describe('BlockchainV3', () => {
 			} catch (e) {
 				expect(e.status).toBe(404);
 				expect(JSON.parse(e.body).msg).toBe('no components by this id exist');
-				misc.record_api({ name: 'getComponent-fail', input: opts, response: JSON.parse(e.body) });
+				misc.record_api({ name: 'getComponent-fail', input: opts, response: misc.format_error(e) });
 			}
 		});
 
@@ -134,7 +134,7 @@ describe('BlockchainV3', () => {
 			} catch (e) {
 				expect(e.status).toBe(404);
 				expect(JSON.parse(e.body).msg).toBe('no components by this id exist');
-				misc.record_api({ name: 'deleteComponent-fail', input: opts, response: JSON.parse(e.body) });
+				misc.record_api({ name: 'deleteComponent-fail', input: opts, response: misc.format_error(e) });
 			}
 		});
 
@@ -156,7 +156,7 @@ describe('BlockchainV3', () => {
 					"Expected parameter 'msp.tlsca' to exist.",
 					"Expected parameter 'msp.ca' to exist."
 				]);
-				misc.record_api({ name: 'importCa-fail', input: opts, response: JSON.parse(e.body) });
+				misc.record_api({ name: 'importCa-fail', input: opts, response: misc.format_error(e) });
 			}
 		});
 
@@ -171,7 +171,7 @@ describe('BlockchainV3', () => {
 			} catch (e) {
 				expect(e.status).toBe(404);
 				expect(JSON.parse(e.body).msg).toBe('no components by this id exist');
-				misc.record_api({ name: 'editCa-fail', input: opts, response: JSON.parse(e.body) });
+				misc.record_api({ name: 'editCa-fail', input: opts, response: misc.format_error(e) });
 			}
 		});
 
@@ -196,7 +196,7 @@ describe('BlockchainV3', () => {
 					"Expected parameter 'msp.component' to exist.",
 					"Expected parameter 'msp.tlsca' to exist."
 				]);
-				misc.record_api({ name: 'importPeer-fail', input: opts, response: JSON.parse(e.body) });
+				misc.record_api({ name: 'importPeer-fail', input: opts, response: misc.format_error(e) });
 			}
 		});
 
@@ -211,7 +211,7 @@ describe('BlockchainV3', () => {
 			} catch (e) {
 				expect(e.status).toBe(404);
 				expect(JSON.parse(e.body).msg).toBe('no components by this id exist');
-				misc.record_api({ name: 'editPeer-fail', input: opts, response: JSON.parse(e.body) });
+				misc.record_api({ name: 'editPeer-fail', input: opts, response: misc.format_error(e) });
 			}
 		});
 
@@ -238,7 +238,7 @@ describe('BlockchainV3', () => {
 					"Expected parameter 'msp.component' to exist.",
 					"Expected parameter 'msp.tlsca' to exist."
 				]);
-				misc.record_api({ name: 'importOrderer-fail', input: opts, response: JSON.parse(e.body) });
+				misc.record_api({ name: 'importOrderer-fail', input: opts, response: misc.format_error(e) });
 			}
 		});
 
@@ -253,7 +253,7 @@ describe('BlockchainV3', () => {
 			} catch (e) {
 				expect(e.status).toBe(404);
 				expect(JSON.parse(e.body).msg).toBe('no components by this id exist');
-				misc.record_api({ name: 'editOrderer-fail', input: opts, response: JSON.parse(e.body) });
+				misc.record_api({ name: 'editOrderer-fail', input: opts, response: misc.format_error(e) });
 			}
 		});
 
