@@ -182,12 +182,16 @@ try {
 
 ### Error Handling
 
+The SDK will do its bests to inspect the input for correctness (before sending the API).
+In the case of a bad input (such as a missing required field) it will throw an error.
+1. The service method (the sdk operation) will throw an error `e`. This error can be parsed/read with `e.toString()`.
+
 In the case of an error response from the server endpoint, the Blockchain Node SDK will do the following:
-1. The service method (operation) will throw an error `e`.  This `e` object will
+1. The service method (the sdk operation) will throw an error `e`.  This `e` object will
 contain the error message retrieved from the HTTP response if possible, or a generic error message
 otherwise.
-2. The `e.body` field will contain the (response if the operation returned a response).
-3. The `e.status` field will contain the HTTP response code.
+2. The `e.body` field will contain the HTTP response as a string.
+3. The `e.status` field will contain the HTTP response code as a number.
 
 ## Generation
 This is a note for developers of this repository on how to rebuild the SDK.
