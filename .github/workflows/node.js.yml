@@ -21,6 +21,7 @@ jobs:
     env:  # set environment variables for test suite
       IAM_API_KEY: ${{ secrets.IAM_API_KEY }}
       IBP_SERVICE_INSTANCE_URL: ${{ secrets.IBP_SERVICE_INSTANCE_URL }}
+      DONOR_CA_STR: ${{ secrets.DONOR_CA_STR }}
 
     steps:
     - uses: actions/checkout@v2

@@ -269,7 +269,7 @@ class BlockchainV3 extends BaseService {
 	 * The field `tlsca` is optional. The IBP console will copy the value of `config_override.ca` into
 	 * `config_override.tlsca` if `config_override.tlsca` is omitted (which is recommended).
 	 *
-	 * *The field **names** below are not case-sensitive.*.
+	 * *The nested field **names** below are not case-sensitive.*.
 	 * @param {CreateCaBodyResources} [params.resources] - CPU and memory properties. This feature is not available if
 	 * using a free Kubernetes cluster.
 	 * @param {CreateCaBodyStorage} [params.storage] - Disk space properties. This feature is not available if using a
@@ -397,7 +397,8 @@ class BlockchainV3 extends BaseService {
 	 * file](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/serverconfig.html) if you want use custom
 	 * attributes to configure advanced CA features. Omit if not.
 	 *
-	 * *The field **names** below are not case-sensitive.*.
+	 * *The nested field **names** below are not case-sensitive.*
+	 * *The nested fields sent will be merged with the existing settings.*.
 	 * @param {number} [params.replicas] - The number of replica pods running at any given time.
 	 * @param {UpdateCaBodyResources} [params.resources] - CPU and memory properties. This feature is not available if
 	 * using a free Kubernetes cluster.
@@ -577,7 +578,7 @@ class BlockchainV3 extends BaseService {
 	 * file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom
 	 * attributes to configure the Peer. Omit if not.
 	 *
-	 * *The field **names** below are not case-sensitive.*.
+	 * *The nested field **names** below are not case-sensitive.*.
 	 * @param {PeerResources} [params.resources] - CPU and memory properties. This feature is not available if using a
 	 * free Kubernetes cluster.
 	 * @param {CreatePeerBodyStorage} [params.storage] - Disk space properties. This feature is not available if using a
@@ -837,7 +838,8 @@ class BlockchainV3 extends BaseService {
 	 * file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom
 	 * attributes to configure the Peer. Omit if not.
 	 *
-	 * *The field **names** below are not case-sensitive.*.
+	 * *The nested field **names** below are not case-sensitive.*
+	 * *The nested fields sent will be merged with the existing settings.*.
 	 * @param {UpdatePeerBodyCrypto} [params.crypto] -
 	 * @param {NodeOu} [params.nodeOu] -
 	 * @param {number} [params.replicas] - The number of replica pods running at any given time.
@@ -1212,7 +1214,8 @@ class BlockchainV3 extends BaseService {
 	 * file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/orderer.yaml) if you want use custom
 	 * attributes to configure the Orderer. Omit if not.
 	 *
-	 * *The field **names** below are not case-sensitive.*.
+	 * *The nested field **names** below are not case-sensitive.*
+	 * *The nested fields sent will be merged with the existing settings.*.
 	 * @param {UpdateOrdererBodyCrypto} [params.crypto] -
 	 * @param {NodeOu} [params.nodeOu] -
 	 * @param {number} [params.replicas] - The number of replica pods running at any given time.
@@ -2537,7 +2540,7 @@ namespace BlockchainV3 {
 		 *  The field `tlsca` is optional. The IBP console will copy the value of `config_override.ca` into
 		 *  `config_override.tlsca` if `config_override.tlsca` is omitted (which is recommended).
 		 *
-		 *  *The field **names** below are not case-sensitive.*.
+		 *  *The nested field **names** below are not case-sensitive.*.
 		 */
 		configOverride: CreateCaBodyConfigOverride;
 		/** CPU and memory properties. This feature is not available if using a free Kubernetes cluster. */
@@ -2595,7 +2598,8 @@ namespace BlockchainV3 {
 		 *  file](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/serverconfig.html) if you want use custom
 		 *  attributes to configure advanced CA features. Omit if not.
 		 *
-		 *  *The field **names** below are not case-sensitive.*.
+		 *  *The nested field **names** below are not case-sensitive.*
+		 *  *The nested fields sent will be merged with the existing settings.*.
 		 */
 		configOverride?: UpdateCaBodyConfigOverride;
 		/** The number of replica pods running at any given time. */
@@ -2660,7 +2664,7 @@ namespace BlockchainV3 {
 		 *  file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom
 		 *  attributes to configure the Peer. Omit if not.
 		 *
-		 *  *The field **names** below are not case-sensitive.*.
+		 *  *The nested field **names** below are not case-sensitive.*.
 		 */
 		configOverride?: ConfigPeerCreate;
 		/** CPU and memory properties. This feature is not available if using a free Kubernetes cluster. */
@@ -2777,7 +2781,8 @@ namespace BlockchainV3 {
 		 *  file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom
 		 *  attributes to configure the Peer. Omit if not.
 		 *
-		 *  *The field **names** below are not case-sensitive.*.
+		 *  *The nested field **names** below are not case-sensitive.*
+		 *  *The nested fields sent will be merged with the existing settings.*.
 		 */
 		configOverride?: ConfigPeerUpdate;
 		crypto?: UpdatePeerBodyCrypto;
@@ -2968,7 +2973,8 @@ namespace BlockchainV3 {
 		 *  file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/orderer.yaml) if you want use custom
 		 *  attributes to configure the Orderer. Omit if not.
 		 *
-		 *  *The field **names** below are not case-sensitive.*.
+		 *  *The nested field **names** below are not case-sensitive.*
+		 *  *The nested fields sent will be merged with the existing settings.*.
 		 */
 		configOverride?: ConfigOrdererUpdate;
 		crypto?: UpdateOrdererBodyCrypto;
@@ -3820,7 +3826,7 @@ namespace BlockchainV3 {
 		clientauth?: ConfigCATlsClientauth;
 	}
 
-	/** Override the [Fabric Orderer configuration file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/orderer.yaml) if you want use custom attributes to configure the Orderer. Omit if not. *The field **names** below are not case-sensitive.*. */
+	/** Override the [Fabric Orderer configuration file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/orderer.yaml) if you want use custom attributes to configure the Orderer. Omit if not. *The nested field **names** below are not case-sensitive.*. */
 	export interface ConfigOrdererCreate {
 		General?: ConfigOrdererGeneral;
 		/** Controls the debugging options for the orderer. */
@@ -3840,7 +3846,7 @@ namespace BlockchainV3 {
 		Prefix?: string;
 	}
 
-	/** Update the [Fabric Orderer configuration file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/orderer.yaml) if you want use custom attributes to configure the Orderer. Omit if not. *The field **names** below are not case-sensitive.*. */
+	/** Update the [Fabric Orderer configuration file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/orderer.yaml) if you want use custom attributes to configure the Orderer. Omit if not. *The nested field **names** below are not case-sensitive.* *The nested fields sent will be merged with the existing settings.*. */
 	export interface ConfigOrdererUpdate {
 		General?: ConfigOrdererGeneralUpdate;
 		/** Controls the debugging options for the orderer. */
@@ -3949,7 +3955,7 @@ namespace BlockchainV3 {
 		qscc?: boolean;
 	}
 
-	/** Override the [Fabric Peer configuration file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom attributes to configure the Peer. Omit if not. *The field **names** below are not case-sensitive.*. */
+	/** Override the [Fabric Peer configuration file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom attributes to configure the Peer. Omit if not. *The nested field **names** below are not case-sensitive.*. */
 	export interface ConfigPeerCreate {
 		peer?: ConfigPeerCreatePeer;
 		chaincode?: ConfigPeerChaincode;
@@ -4103,7 +4109,7 @@ namespace BlockchainV3 {
 		deliverService?: number;
 	}
 
-	/** Update the [Fabric Peer configuration file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom attributes to configure the Peer. Omit if not. *The field **names** below are not case-sensitive.*. */
+	/** Update the [Fabric Peer configuration file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom attributes to configure the Peer. Omit if not. *The nested field **names** below are not case-sensitive.* *The nested fields sent will be merged with the existing settings.*. */
 	export interface ConfigPeerUpdate {
 		peer?: ConfigPeerUpdatePeer;
 		chaincode?: ConfigPeerChaincode;
@@ -4309,7 +4315,7 @@ namespace BlockchainV3 {
 		user?: number;
 	}
 
-	/** Set `config_override` to create the root/initial enroll id and enroll secret as well as enabling custom CA configurations (such as using postgres). See the [Fabric CA configuration file](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/serverconfig.html) for more information about each parameter. The field `tlsca` is optional. The IBP console will copy the value of `config_override.ca` into `config_override.tlsca` if `config_override.tlsca` is omitted (which is recommended). *The field **names** below are not case-sensitive.*. */
+	/** Set `config_override` to create the root/initial enroll id and enroll secret as well as enabling custom CA configurations (such as using postgres). See the [Fabric CA configuration file](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/serverconfig.html) for more information about each parameter. The field `tlsca` is optional. The IBP console will copy the value of `config_override.ca` into `config_override.tlsca` if `config_override.tlsca` is omitted (which is recommended). *The nested field **names** below are not case-sensitive.*. */
 	export interface CreateCaBodyConfigOverride {
 		ca: ConfigCACreate;
 		tlsca?: ConfigCACreate;
@@ -5328,7 +5334,7 @@ namespace BlockchainV3 {
 		class?: string;
 	}
 
-	/** Update the [Fabric CA configuration file](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/serverconfig.html) if you want use custom attributes to configure advanced CA features. Omit if not. *The field **names** below are not case-sensitive.*. */
+	/** Update the [Fabric CA configuration file](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/serverconfig.html) if you want use custom attributes to configure advanced CA features. Omit if not. *The nested field **names** below are not case-sensitive.* *The nested fields sent will be merged with the existing settings.*. */
 	export interface UpdateCaBodyConfigOverride {
 		ca: ConfigCAUpdate;
 	}

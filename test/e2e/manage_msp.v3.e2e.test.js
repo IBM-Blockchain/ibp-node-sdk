@@ -32,6 +32,8 @@ try{
 	siid_url = require('./davids_secrets.json').url
 } catch (e) {}
 
+// internal record keeping (ignore me)
+const misc = require('./misc.js')();
 
 // ------------------------ start ------------------------ //
 const ibp = require('../../dist/index.js');
@@ -103,6 +105,7 @@ describe('BlockchainV3', () => {
 				type: 'msp'
 			});
 			imported_msp_id = resp.result.id;
+			misc.record_api({ name: 'importMsp', input: opts, response: resp });
 		});
 
 		// ---- Edit MSP ----- //
@@ -136,6 +139,7 @@ describe('BlockchainV3', () => {
 				],
 				type: 'msp'
 			});
+			misc.record_api({ name: 'editMsp', input: opts, response: resp });
 		});
 
 		// ---- Get MSP ----- //
@@ -162,6 +166,7 @@ describe('BlockchainV3', () => {
 						}
 					]
 				});
+				misc.record_api({ name: 'getMspCertificate', input: opts, response: resp });
 			} catch (e) {
 				console.log('e', e);
 				throw e;
@@ -182,6 +187,7 @@ describe('BlockchainV3', () => {
 					"id": imported_msp_id,
 					"display_name": "My Other Org"
 				});
+				misc.record_api({ name: 'removeComponent', input: opts, response: resp });
 			} catch (e) {
 				console.log('e', e);
 				throw e;

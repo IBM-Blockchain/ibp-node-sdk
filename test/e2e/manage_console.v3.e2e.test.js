@@ -32,6 +32,8 @@ try{
 	siid_url = require('./davids_secrets.json').url
 } catch (e) {}
 
+// internal record keeping (ignore me)
+const misc = require('./misc.js')();
 
 // ------------------------ start ------------------------ //
 const ibp = require('../../dist/index.js');
@@ -111,6 +113,7 @@ describe('BlockchainV3', () => {
 			expect(resp.result.VERSIONS).toHaveProperty('athena');
 			expect(resp.result.VERSIONS).toHaveProperty('stitch');
 			expect(resp.result.VERSIONS).toHaveProperty('tag');
+			misc.record_api({ name: 'getSettings', input: null, response: resp });
 		});
 
 		// ---- Edit settings ----- //
@@ -132,6 +135,7 @@ describe('BlockchainV3', () => {
 			expect(resp.result.versions).toHaveProperty('ca');
 			expect(resp.result.versions).toHaveProperty('peer');
 			expect(resp.result.versions).toHaveProperty('orderer');
+			misc.record_api({ name: 'getFabVersions', input: null, response: resp });
 		});
 
 		// ---- Get IBP console health ----- //
@@ -140,16 +144,19 @@ describe('BlockchainV3', () => {
 			expect(resp.status).toBe(200);
 			expect(resp.result).toHaveProperty('OPTOOLS');
 			expect(resp.result).toHaveProperty('OS');
+			misc.record_api({ name: 'getHealth', input: null, response: resp });
 		});
 
 		// ---- Get all IBP console notifications ----- //
 		test('should list IBP notifications', async () => {
-			const resp = await client.listNotifications({ limit: 3, skip: 1 });
+			const opts = { limit: 3, skip: 1 };
+			const resp = await client.listNotifications(opts);
 			expect(resp.status).toBe(200);
 			expect(resp.result).toHaveProperty('total');
 			expect(resp.result).toHaveProperty('returning');
 			expect(resp.result).toHaveProperty('notifications');
 			notifications = resp.result.notifications;
+			misc.record_api({ name: 'listNotifications', input: opts, response: resp });
 		});
 
 		// ---- Archive IBP console notifications ----- //
@@ -164,6 +171,7 @@ describe('BlockchainV3', () => {
 			expect(resp.status).toBe(200);
 			expect(resp.result).toHaveProperty('message');
 			expect(resp.result).toHaveProperty('details');
+			misc.record_api({ name: 'archiveNotifications', input: opts, response: resp });
 		});
 
 		// ---- Delete signature collection ----- //
@@ -191,6 +199,7 @@ describe('BlockchainV3', () => {
 			expect(resp.status).toBe(202);
 			expect(resp.result).toHaveProperty('message');
 			expect(resp.result.message).toBe('delete submitted');
+			misc.record_api({ name: 'deleteAllSessions', input: null, response: resp });
 		});
 
 		// ---- Delete all IBP console notifications ----- //
@@ -199,6 +208,7 @@ describe('BlockchainV3', () => {
 			expect(resp.status).toBe(200);
 			expect(resp.result).toHaveProperty('message');
 			expect(resp.result).toHaveProperty('details');
+			misc.record_api({ name: 'deleteAllNotifications', input: null, response: resp });
 		});
 
 		// ---- Delete all IBP console caches ----- //
@@ -207,6 +217,7 @@ describe('BlockchainV3', () => {
 			expect(resp.status).toBe(200);
 			expect(resp.result).toHaveProperty('message');
 			expect(resp.result).toHaveProperty('flushed');
+			misc.record_api({ name: 'clearCaches', input: null, response: resp });
 		});
 
 		// ---- Get Postman collection ----- //

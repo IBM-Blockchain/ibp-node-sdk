@@ -25,13 +25,22 @@ NOTE: running this requires setting up a living IBP Console on IBM Cloud Staging
 // default to pull secrets from env
 let apikey = process.env.IAM_API_KEY;
 let siid_url = process.env.IBP_SERVICE_INSTANCE_URL;
+let donor_ca_data = process.env.DONOR_CA_STR;
 
 // try to pull secrets from local file, if not possible use env
-try{
-	apikey = require('./davids_secrets.json').apikey
-	siid_url = require('./davids_secrets.json').url
-} catch (e) {}
+try {
+	apikey = require('./davids_secrets.json').apikey;
+	siid_url = require('./davids_secrets.json').url;
+	donor_ca_data = require('./davids_secrets.json').donor_ca;
+} catch (e) { }
 
+if (typeof donor_ca_data === 'string') {
+	donor_ca_data = JSON.parse(donor_ca_data);				// github action will load this secret as a JSON string, parse it
+}
+
+// internal record keeping (ignore me)
+const misc = require('./misc.js')();
+misc.init_report();
 
 // ------------------------ start ------------------------ //
 const ibp = require('../../dist/index.js');
@@ -145,6 +154,7 @@ describe('BlockchainV3', () => {
 			expect(resp.result).toHaveProperty('zone');
 			expect(resp.result.display_name).toBe('My CA');
 			created_ca_id = resp.result.id;
+			misc.record_api({ name: 'createCa', input: opts, response: resp });
 		});
 
 		// ---- Update a CA ----- //
@@ -200,6 +210,7 @@ describe('BlockchainV3', () => {
 						"restart"
 					]
 				});
+				misc.record_api({ name: 'caAction', input: opts, response: resp });
 			} catch (e) {
 				console.log(e);
 				throw e;
@@ -235,6 +246,7 @@ describe('BlockchainV3', () => {
 			expect(resp.result.tags).toMatchObject(['fabric-ca', 'ibm_saas']);
 			expect(resp.result.id).toBe(created_ca_id);
 			expect(resp.result.location).toBe('ibm_saas');
+			misc.record_api({ name: 'getComponent-CA', input: opts, response: resp });
 		});
 
 		// ---- Get all Components ----- //
@@ -268,6 +280,7 @@ describe('BlockchainV3', () => {
 			expect(resp.result.tags).toMatchObject(['fabric-ca', 'ibm_saas']);
 			expect(resp.result.id).toBe(created_ca_id);
 			expect(resp.result.location).toBe('ibm_saas');
+			misc.record_api({ name: 'listComponents-with-dep', input: opts, response: resp });
 		});
 
 		// ---- Get all Components (no deployment data) ----- //
@@ -293,6 +306,7 @@ describe('BlockchainV3', () => {
 			expect(resp.result).toHaveProperty('timestamp');
 			expect(resp.result.id).toBe(created_ca_id);
 			expect(resp.result.location).toBe('ibm_saas');
+			misc.record_api({ name: 'listComponents-no-dep', input: opts, response: resp });
 		});
 
 		// ---- Get all CAs ----- //
@@ -327,6 +341,7 @@ describe('BlockchainV3', () => {
 			expect(resp.result.id).toBe(created_ca_id);
 			expect(resp.result.location).toBe('ibm_saas');
 			expect(resp.result.type).toBe('fabric-ca');
+			misc.record_api({ name: 'getComponentsByType-with-dep', input: opts, response: resp });
 		});
 
 		// ---- Get all saas components ----- //
@@ -360,6 +375,7 @@ describe('BlockchainV3', () => {
 			expect(resp.result.tags).toMatchObject(['fabric-ca', 'ibm_saas']);
 			expect(resp.result.id).toBe(created_ca_id);
 			expect(resp.result.location).toBe('ibm_saas');
+			misc.record_api({ name: 'getComponentsByTag-with-dep', input: opts, response: resp });
 		});
 
 		// ---- Delete a CA ----- //
@@ -375,6 +391,7 @@ describe('BlockchainV3', () => {
 				"id": created_ca_id,
 				"display_name": "My CA"
 			});
+			misc.record_api({ name: 'deleteComponent-ca', input: opts, response: resp });
 		});
 
 		// ---- Import a CA ----- //
@@ -406,6 +423,7 @@ describe('BlockchainV3', () => {
 			expect(resp.result).toHaveProperty('timestamp');
 			expect(resp.result.display_name).toBe('My Imported CA');
 			imported_ca_id = resp.result.id;
+			misc.record_api({ name: 'importCa', input: opts, response: resp });
 		});
 
 		// ---- Edit data on a CA ----- //
@@ -435,6 +453,7 @@ describe('BlockchainV3', () => {
 				'fabric-ca',
 				'ibm_saas',
 			]);
+			misc.record_api({ name: 'editCa', input: opts, response: resp });
 		});
 
 		// ---- Remove imported CA ----- //
@@ -450,6 +469,7 @@ describe('BlockchainV3', () => {
 				"id": imported_ca_id,
 				"display_name": "My Other CA"
 			});
+			misc.record_api({ name: 'removeComponent-ca', input: opts, response: resp });
 		});
 
 		// ---- Remove component via tag----- //
@@ -492,6 +512,7 @@ describe('BlockchainV3', () => {
 				"id": imported_ca_id,
 				"display_name": "My Second Imported CA"
 			});
+			misc.record_api({ name: 'removeComponentsByTag-fabric-ca', input: opts, response: resp });
 		});
 
 		// ---- Import a Peer ----- //
@@ -527,6 +548,7 @@ describe('BlockchainV3', () => {
 			expect(resp.result).toHaveProperty('timestamp');
 			expect(resp.result.display_name).toBe('My Imported Peer');
 			imported_peer_id = resp.result.id;
+			misc.record_api({ name: 'importPeer', input: opts, response: resp });
 		});
 
 		// ---- Edit a Peer ----- //
@@ -544,6 +566,7 @@ describe('BlockchainV3', () => {
 			expect(resp.result).toHaveProperty('msp');
 			expect(resp.result).toHaveProperty('timestamp');
 			expect(resp.result.display_name).toBe('My Other Imported Peer');
+			misc.record_api({ name: 'editPeer', input: opts, response: resp });
 		});
 
 		// ---- Import a Orderer ----- //
@@ -581,23 +604,118 @@ describe('BlockchainV3', () => {
 			expect(resp.result).toHaveProperty('timestamp');
 			expect(resp.result.display_name).toBe('My Imported Orderer Node');
 			imported_os_id = resp.result.id;
+			misc.record_api({ name: 'importOrderer', input: opts, response: resp });
+		});
+
+		// ---- Edit a Orderer ----- //
+		test('should edit name of a fake Orderer', async () => {
+			const opts = {
+				id: imported_os_id,
+				displayName: 'My Other Imported Orderer Node',
+			};
+			const resp = await client.editOrderer(opts);
+			expect(resp.status).toBe(200);
+			expect(resp.result).toHaveProperty('id');
+			expect(resp.result).toHaveProperty('display_name');
+			expect(resp.result).toHaveProperty('api_url');
+			expect(resp.result).toHaveProperty('operations_url');
+			expect(resp.result).toHaveProperty('msp');
+			expect(resp.result).toHaveProperty('timestamp');
+			expect(resp.result.display_name).toBe('My Other Imported Orderer Node');
+			misc.record_api({ name: 'editOrderer', input: opts, response: resp });
+		});
+
+		// ---- Create a Peer ----- //
+		test('should create a Peer', async () => {
+			const opts = {
+				displayName: 'My Peer',
+				mspId: donor_ca_data.msp_id.id,
+				crypto: {
+					enrollment: {
+						ca: {
+							host: misc.break_up_url(donor_ca_data.api_url).hostname,
+							port: misc.break_up_url(donor_ca_data.api_url).port,
+							name: donor_ca_data.ca_name,
+							tls_cert: donor_ca_data.tls_cert,
+							enroll_id: donor_ca_data.peer_id.id,
+							enroll_secret: donor_ca_data.peer_id.secret
+						},
+						tlsca: {
+							host: misc.break_up_url(donor_ca_data.api_url).hostname,
+							port: misc.break_up_url(donor_ca_data.api_url).port,
+							name: donor_ca_data.tlsca_name,
+							tls_cert: donor_ca_data.tls_cert,
+							enroll_id: donor_ca_data.peer_id.id,
+							enroll_secret: donor_ca_data.peer_id.secret
+						},
+						component: {
+							admincerts: [donor_ca_data.msp_id.cert]
+						}
+					}
+				},
+				configOverride: {
+					chaincode: {
+						startuptimeout: '480s',
+						executetimeout: '120s'
+					}
+				}
+			};
+			const resp = await client.createPeer(opts);
+			expect(resp.status).toBe(200);
+			expect(resp.result).toHaveProperty('id');
+			expect(resp.result).toHaveProperty('dep_component_id');
+			expect(resp.result).toHaveProperty('display_name');
+			expect(resp.result).toHaveProperty('api_url');
+			expect(resp.result).toHaveProperty('operations_url');
+			expect(resp.result).toHaveProperty('msp');
+			expect(resp.result).toHaveProperty('resources');
+			expect(resp.result).toHaveProperty('scheme_version');
+			expect(resp.result).toHaveProperty('storage');
+			expect(resp.result).toHaveProperty('tags');
+			expect(resp.result).toHaveProperty('timestamp');
+			expect(resp.result).toHaveProperty('version');
+			expect(resp.result).toHaveProperty('zone');
+			expect(resp.result.display_name).toBe('My Peer');
+			created_ca_id = resp.result.id;
+			misc.record_api({ name: 'createPeer', input: opts, response: resp });
 		});
 	});
 
-	// ---- Edit a Orderer ----- //
-	test('should edit name of a fake Orderer', async () => {
+	// ---- Create a Orderer ----- //
+	test('should create a Orderer', async () => {
 		const opts = {
-			id: imported_os_id,
-			displayName: 'My Other Imported Orderer Node',
+			clusterName: 'My one Node Raft',
+			displayName: 'ordering service node',
+			mspId: donor_ca_data.msp_id.id,
+			ordererType: 'raft',
+			crypto: [
+				{
+					enrollment: {
+						ca: {
+							host: misc.break_up_url(donor_ca_data.api_url).hostname,
+							port: misc.break_up_url(donor_ca_data.api_url).port,
+							name: donor_ca_data.ca_name,
+							tls_cert: donor_ca_data.tls_cert,
+							enroll_id: donor_ca_data.orderer_id.id,
+							enroll_secret: donor_ca_data.orderer_id.secret
+						},
+						tlsca: {
+							host: misc.break_up_url(donor_ca_data.api_url).hostname,
+							port: misc.break_up_url(donor_ca_data.api_url).port,
+							name: donor_ca_data.tlsca_name,
+							tls_cert: donor_ca_data.tls_cert,
+							enroll_id: donor_ca_data.orderer_id.id,
+							enroll_secret: donor_ca_data.orderer_id.secret
+						},
+						component: {
+							admincerts: [donor_ca_data.msp_id.cert]
+						}
+					}
+				}
+			]
 		};
-		const resp = await client.editOrderer(opts);
+		const resp = await client.createOrderer(opts);
 		expect(resp.status).toBe(200);
-		expect(resp.result).toHaveProperty('id');
-		expect(resp.result).toHaveProperty('display_name');
-		expect(resp.result).toHaveProperty('api_url');
-		expect(resp.result).toHaveProperty('operations_url');
-		expect(resp.result).toHaveProperty('msp');
-		expect(resp.result).toHaveProperty('timestamp');
-		expect(resp.result.display_name).toBe('My Other Imported Orderer Node');
+		misc.record_api({ name: 'createOrderer', input: opts, response: resp });
 	});
 });

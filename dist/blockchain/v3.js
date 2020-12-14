@@ -253,7 +253,7 @@ var BlockchainV3 = /** @class */ (function (_super) {
      * The field `tlsca` is optional. The IBP console will copy the value of `config_override.ca` into
      * `config_override.tlsca` if `config_override.tlsca` is omitted (which is recommended).
      *
-     * *The field **names** below are not case-sensitive.*.
+     * *The nested field **names** below are not case-sensitive.*.
      * @param {CreateCaBodyResources} [params.resources] - CPU and memory properties. This feature is not available if
      * using a free Kubernetes cluster.
      * @param {CreateCaBodyStorage} [params.storage] - Disk space properties. This feature is not available if using a
@@ -371,7 +371,8 @@ var BlockchainV3 = /** @class */ (function (_super) {
      * file](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/serverconfig.html) if you want use custom
      * attributes to configure advanced CA features. Omit if not.
      *
-     * *The field **names** below are not case-sensitive.*.
+     * *The nested field **names** below are not case-sensitive.*
+     * *The nested fields sent will be merged with the existing settings.*.
      * @param {number} [params.replicas] - The number of replica pods running at any given time.
      * @param {UpdateCaBodyResources} [params.resources] - CPU and memory properties. This feature is not available if
      * using a free Kubernetes cluster.
@@ -533,7 +534,7 @@ var BlockchainV3 = /** @class */ (function (_super) {
      * file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom
      * attributes to configure the Peer. Omit if not.
      *
-     * *The field **names** below are not case-sensitive.*.
+     * *The nested field **names** below are not case-sensitive.*.
      * @param {PeerResources} [params.resources] - CPU and memory properties. This feature is not available if using a
      * free Kubernetes cluster.
      * @param {CreatePeerBodyStorage} [params.storage] - Disk space properties. This feature is not available if using a
@@ -771,7 +772,8 @@ var BlockchainV3 = /** @class */ (function (_super) {
      * file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom
      * attributes to configure the Peer. Omit if not.
      *
-     * *The field **names** below are not case-sensitive.*.
+     * *The nested field **names** below are not case-sensitive.*
+     * *The nested fields sent will be merged with the existing settings.*.
      * @param {UpdatePeerBodyCrypto} [params.crypto] -
      * @param {NodeOu} [params.nodeOu] -
      * @param {number} [params.replicas] - The number of replica pods running at any given time.
@@ -1118,7 +1120,8 @@ var BlockchainV3 = /** @class */ (function (_super) {
      * file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/orderer.yaml) if you want use custom
      * attributes to configure the Orderer. Omit if not.
      *
-     * *The field **names** below are not case-sensitive.*.
+     * *The nested field **names** below are not case-sensitive.*
+     * *The nested fields sent will be merged with the existing settings.*.
      * @param {UpdateOrdererBodyCrypto} [params.crypto] -
      * @param {NodeOu} [params.nodeOu] -
      * @param {number} [params.replicas] - The number of replica pods running at any given time.
