@@ -28,7 +28,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 /**
- * IBM OpenAPI SDK Code Generator Version: 3.19.0-be3b4618-20201113-200858
+ * IBM OpenAPI SDK Code Generator Version: 3.22.0-937b9a1c-20201211-223043
  */
 var extend = require("extend");
 var ibm_cloud_sdk_core_1 = require("ibm-cloud-sdk-core");
@@ -42,7 +42,7 @@ var BlockchainV3 = /** @class */ (function (_super) {
      * Construct a BlockchainV3 object.
      *
      * @param {Object} options - Options for the service.
-     * @param {string} [options.serviceUrl] - The base url to use when contacting the service (e.g. 'https://gateway.watsonplatform.net'). The base url may differ between IBM Cloud regions.
+     * @param {string} [options.serviceUrl] - The base url to use when contacting the service. The base url may differ between IBM Cloud regions.
      * @param {OutgoingHttpHeaders} [options.headers] - Default headers that shall be included with every request to the service.
      * @param {Authenticator} options.authenticator - The Authenticator object used to authenticate requests to the service
      * @constructor
@@ -878,7 +878,7 @@ var BlockchainV3 = /** @class */ (function (_super) {
      * @param {Hsm} [params.hsm] - The connection details of the HSM (Hardware Security Module).
      * @param {string} [params.version] - The Hyperledger Fabric release version to use.
      * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-     * @returns {Promise<BlockchainV3.Response<BlockchainV3.OrdererResponse>>}
+     * @returns {Promise<BlockchainV3.Response<BlockchainV3.CreateOrdererResponse>>}
      */
     BlockchainV3.prototype.createOrderer = function (params) {
         var _params = Object.assign({}, params);

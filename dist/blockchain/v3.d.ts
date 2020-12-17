@@ -38,7 +38,7 @@ declare class BlockchainV3 extends BaseService {
      * Construct a BlockchainV3 object.
      *
      * @param {Object} options - Options for the service.
-     * @param {string} [options.serviceUrl] - The base url to use when contacting the service (e.g. 'https://gateway.watsonplatform.net'). The base url may differ between IBM Cloud regions.
+     * @param {string} [options.serviceUrl] - The base url to use when contacting the service. The base url may differ between IBM Cloud regions.
      * @param {OutgoingHttpHeaders} [options.headers] - Default headers that shall be included with every request to the service.
      * @param {Authenticator} options.authenticator - The Authenticator object used to authenticate requests to the service
      * @constructor
@@ -414,9 +414,9 @@ declare class BlockchainV3 extends BaseService {
      * @param {Hsm} [params.hsm] - The connection details of the HSM (Hardware Security Module).
      * @param {string} [params.version] - The Hyperledger Fabric release version to use.
      * @param {OutgoingHttpHeaders} [params.headers] - Custom request headers
-     * @returns {Promise<BlockchainV3.Response<BlockchainV3.OrdererResponse>>}
+     * @returns {Promise<BlockchainV3.Response<BlockchainV3.CreateOrdererResponse>>}
      */
-    createOrderer(params: BlockchainV3.CreateOrdererParams): Promise<BlockchainV3.Response<BlockchainV3.OrdererResponse>>;
+    createOrderer(params: BlockchainV3.CreateOrdererParams): Promise<BlockchainV3.Response<BlockchainV3.CreateOrdererResponse>>;
     /**
      * Import an ordering service.
      *
@@ -2774,6 +2774,11 @@ declare namespace BlockchainV3 {
     interface CreateOrdererRaftBodyStorage {
         orderer: StorageObject;
     }
+    /** CreateOrdererResponse. */
+    interface CreateOrdererResponse {
+        /** Contains array of ordering nodes. */
+        created?: OrdererResponse[];
+    }
     /** Disk space properties. This feature is not available if using a free Kubernetes cluster. */
     interface CreatePeerBodyStorage {
         peer: StorageObject;
@@ -3206,7 +3211,7 @@ declare namespace BlockchainV3 {
         /** If true an in memory cache will be used against couchdb requests. */
         MEMORY_CACHE_ENABLED?: boolean;
         /** Internal port that IBP console is running on. */
-        PORT?: string;
+        PORT?: number;
         /** If true an in memory cache will be used for internal proxy requests. */
         PROXY_CACHE_ENABLED?: boolean;
         /** If `"always"` requests to Fabric components will go through the IBP console server. If `true` requests to
@@ -3218,7 +3223,7 @@ declare namespace BlockchainV3 {
         /** The URL to use to proxy an http request to a Fabric component. */
         PROXY_TLS_HTTP_URL?: string;
         /** The URL to use to proxy WebSocket request to a Fabric component. */
-        PROXY_TLS_WS_URL?: any;
+        PROXY_TLS_WS_URL?: string;
         /** If it's "local", things like https are disabled. */
         REGION?: string;
         /** If true an in memory cache will be used for browser session data. */
