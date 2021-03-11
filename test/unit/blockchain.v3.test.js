@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -626,6 +626,7 @@ describe('BlockchainV3', () => {
         // Construct the params object for operation createCa
         const displayName = 'My CA';
         const configOverride = createCaBodyConfigOverrideModel;
+        const id = 'component1';
         const resources = createCaBodyResourcesModel;
         const storage = createCaBodyStorageModel;
         const zone = '-';
@@ -637,6 +638,7 @@ describe('BlockchainV3', () => {
         const params = {
           displayName: displayName,
           configOverride: configOverride,
+          id: id,
           resources: resources,
           storage: storage,
           zone: zone,
@@ -663,6 +665,7 @@ describe('BlockchainV3', () => {
         checkMediaHeaders(createRequestMock, expectedAccept, expectedContentType);
         expect(options.body['display_name']).toEqual(displayName);
         expect(options.body['config_override']).toEqual(configOverride);
+        expect(options.body['id']).toEqual(id);
         expect(options.body['resources']).toEqual(resources);
         expect(options.body['storage']).toEqual(storage);
         expect(options.body['zone']).toEqual(zone);
@@ -750,6 +753,7 @@ describe('BlockchainV3', () => {
         const displayName = 'Sample CA';
         const apiUrl = 'https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:7054';
         const msp = importCaBodyMspModel;
+        const id = 'component1';
         const location = 'ibmcloud';
         const operationsUrl = 'https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:9443';
         const tags = ['fabric-ca'];
@@ -758,6 +762,7 @@ describe('BlockchainV3', () => {
           displayName: displayName,
           apiUrl: apiUrl,
           msp: msp,
+          id: id,
           location: location,
           operationsUrl: operationsUrl,
           tags: tags,
@@ -781,6 +786,7 @@ describe('BlockchainV3', () => {
         expect(options.body['display_name']).toEqual(displayName);
         expect(options.body['api_url']).toEqual(apiUrl);
         expect(options.body['msp']).toEqual(msp);
+        expect(options.body['id']).toEqual(id);
         expect(options.body['location']).toEqual(location);
         expect(options.body['operations_url']).toEqual(operationsUrl);
         expect(options.body['tags']).toEqual(tags);
@@ -1562,6 +1568,11 @@ describe('BlockchainV3', () => {
         concurrency: configPeerLimitsConcurrencyModel,
       };
 
+      // ConfigPeerGateway
+      const configPeerGatewayModel = {
+        enabled: true,
+      };
+
       // ConfigPeerCreatePeer
       const configPeerCreatePeerModel = {
         id: 'john-doe',
@@ -1576,6 +1587,7 @@ describe('BlockchainV3', () => {
         validatorPoolSize: 8,
         discovery: configPeerDiscoveryModel,
         limits: configPeerLimitsModel,
+        gateway: configPeerGatewayModel,
       };
 
       // ConfigPeerChaincodeGolang
@@ -1707,6 +1719,7 @@ describe('BlockchainV3', () => {
         const mspId = 'Org1';
         const displayName = 'My Peer';
         const crypto = cryptoObjectModel;
+        const id = 'component1';
         const configOverride = configPeerCreateModel;
         const resources = peerResourcesModel;
         const storage = createPeerBodyStorageModel;
@@ -1720,6 +1733,7 @@ describe('BlockchainV3', () => {
           mspId: mspId,
           displayName: displayName,
           crypto: crypto,
+          id: id,
           configOverride: configOverride,
           resources: resources,
           storage: storage,
@@ -1748,6 +1762,7 @@ describe('BlockchainV3', () => {
         expect(options.body['msp_id']).toEqual(mspId);
         expect(options.body['display_name']).toEqual(displayName);
         expect(options.body['crypto']).toEqual(crypto);
+        expect(options.body['id']).toEqual(id);
         expect(options.body['config_override']).toEqual(configOverride);
         expect(options.body['resources']).toEqual(resources);
         expect(options.body['storage']).toEqual(storage);
@@ -1841,6 +1856,7 @@ describe('BlockchainV3', () => {
         const grpcwpUrl = 'https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084';
         const msp = mspCryptoFieldModel;
         const mspId = 'Org1';
+        const id = 'component1';
         const apiUrl = 'grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051';
         const location = 'ibmcloud';
         const operationsUrl = 'https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443';
@@ -1850,6 +1866,7 @@ describe('BlockchainV3', () => {
           grpcwpUrl: grpcwpUrl,
           msp: msp,
           mspId: mspId,
+          id: id,
           apiUrl: apiUrl,
           location: location,
           operationsUrl: operationsUrl,
@@ -1874,6 +1891,7 @@ describe('BlockchainV3', () => {
         expect(options.body['grpcwp_url']).toEqual(grpcwpUrl);
         expect(options.body['msp']).toEqual(msp);
         expect(options.body['msp_id']).toEqual(mspId);
+        expect(options.body['id']).toEqual(id);
         expect(options.body['api_url']).toEqual(apiUrl);
         expect(options.body['location']).toEqual(location);
         expect(options.body['operations_url']).toEqual(operationsUrl);
@@ -2252,6 +2270,11 @@ describe('BlockchainV3', () => {
         concurrency: configPeerLimitsConcurrencyModel,
       };
 
+      // ConfigPeerGateway
+      const configPeerGatewayModel = {
+        enabled: true,
+      };
+
       // ConfigPeerUpdatePeer
       const configPeerUpdatePeerModel = {
         id: 'john-doe',
@@ -2265,6 +2288,7 @@ describe('BlockchainV3', () => {
         validatorPoolSize: 8,
         discovery: configPeerDiscoveryModel,
         limits: configPeerLimitsModel,
+        gateway: configPeerGatewayModel,
       };
 
       // ConfigPeerChaincodeGolang
@@ -2730,8 +2754,9 @@ describe('BlockchainV3', () => {
         const displayName = 'orderer';
         const crypto = [cryptoObjectModel];
         const clusterName = 'ordering service 1';
+        const id = 'component1';
         const clusterId = 'abcde';
-        const externalAppend = 'false';
+        const externalAppend = false;
         const configOverride = [configOrdererCreateModel];
         const resources = createOrdererRaftBodyResourcesModel;
         const storage = createOrdererRaftBodyStorageModel;
@@ -2747,6 +2772,7 @@ describe('BlockchainV3', () => {
           displayName: displayName,
           crypto: crypto,
           clusterName: clusterName,
+          id: id,
           clusterId: clusterId,
           externalAppend: externalAppend,
           configOverride: configOverride,
@@ -2779,6 +2805,7 @@ describe('BlockchainV3', () => {
         expect(options.body['display_name']).toEqual(displayName);
         expect(options.body['crypto']).toEqual(crypto);
         expect(options.body['cluster_name']).toEqual(clusterName);
+        expect(options.body['id']).toEqual(id);
         expect(options.body['cluster_id']).toEqual(clusterId);
         expect(options.body['external_append']).toEqual(externalAppend);
         expect(options.body['config_override']).toEqual(configOverride);
@@ -2878,7 +2905,8 @@ describe('BlockchainV3', () => {
         const msp = mspCryptoFieldModel;
         const mspId = 'Org1';
         const apiUrl = 'grpcs://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050';
-        const clusterId = 'testString';
+        const clusterId = 'mzdqhdifnl';
+        const id = 'component1';
         const location = 'ibmcloud';
         const operationsUrl = 'https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443';
         const systemChannelId = 'testchainid';
@@ -2891,6 +2919,7 @@ describe('BlockchainV3', () => {
           mspId: mspId,
           apiUrl: apiUrl,
           clusterId: clusterId,
+          id: id,
           location: location,
           operationsUrl: operationsUrl,
           systemChannelId: systemChannelId,
@@ -2918,6 +2947,7 @@ describe('BlockchainV3', () => {
         expect(options.body['msp_id']).toEqual(mspId);
         expect(options.body['api_url']).toEqual(apiUrl);
         expect(options.body['cluster_id']).toEqual(clusterId);
+        expect(options.body['id']).toEqual(id);
         expect(options.body['location']).toEqual(location);
         expect(options.body['operations_url']).toEqual(operationsUrl);
         expect(options.body['system_channel_id']).toEqual(systemChannelId);

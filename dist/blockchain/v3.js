@@ -1,6 +1,6 @@
 "use strict";
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -254,6 +254,9 @@ var BlockchainV3 = /** @class */ (function (_super) {
      * `config_override.tlsca` if `config_override.tlsca` is omitted (which is recommended).
      *
      * *The nested field **names** below are not case-sensitive.*.
+     * @param {string} [params.id] - The unique identifier of this component. Must start with a letter, be lowercase and
+     * only contain letters and numbers. If `id` is not provide a component id will be generated using the field
+     * `display_name` as the base.
      * @param {CreateCaBodyResources} [params.resources] - CPU and memory properties. This feature is not available if
      * using a free Kubernetes cluster.
      * @param {CreateCaBodyStorage} [params.storage] - Disk space properties. This feature is not available if using a
@@ -281,6 +284,7 @@ var BlockchainV3 = /** @class */ (function (_super) {
         var body = {
             'display_name': _params.displayName,
             'config_override': _params.configOverride,
+            'id': _params.id,
             'resources': _params.resources,
             'storage': _params.storage,
             'zone': _params.zone,
@@ -318,6 +322,9 @@ var BlockchainV3 = /** @class */ (function (_super) {
      * @param {string} params.apiUrl - The URL for the CA. Typically, client applications would send requests to this URL.
      * Include the protocol, hostname/ip and port.
      * @param {ImportCaBodyMsp} params.msp -
+     * @param {string} [params.id] - The unique identifier of this component. Must start with a letter, be lowercase and
+     * only contain letters and numbers. If `id` is not provide a component id will be generated using the field
+     * `display_name` as the base.
      * @param {string} [params.location] - Indicates where the component is running.
      * @param {string} [params.operationsUrl] - The operations URL for the CA. Include the protocol, hostname/ip and port.
      * @param {string[]} [params.tags] -
@@ -337,6 +344,7 @@ var BlockchainV3 = /** @class */ (function (_super) {
             'display_name': _params.displayName,
             'api_url': _params.apiUrl,
             'msp': _params.msp,
+            'id': _params.id,
             'location': _params.location,
             'operations_url': _params.operationsUrl,
             'tags': _params.tags,
@@ -530,6 +538,9 @@ var BlockchainV3 = /** @class */ (function (_super) {
      * @param {CryptoObject} params.crypto - See this
      * [topic](/docs/blockchain?topic=blockchain-ibp-v2-apis#ibp-v2-apis-config) for instructions on how to build a crypto
      * object.
+     * @param {string} [params.id] - The unique identifier of this component. Must start with a letter, be lowercase and
+     * only contain letters and numbers. If `id` is not provide a component id will be generated using the field
+     * `display_name` as the base.
      * @param {ConfigPeerCreate} [params.configOverride] - Override the [Fabric Peer configuration
      * file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom
      * attributes to configure the Peer. Omit if not.
@@ -564,6 +575,7 @@ var BlockchainV3 = /** @class */ (function (_super) {
             'msp_id': _params.mspId,
             'display_name': _params.displayName,
             'crypto': _params.crypto,
+            'id': _params.id,
             'config_override': _params.configOverride,
             'resources': _params.resources,
             'storage': _params.storage,
@@ -603,6 +615,9 @@ var BlockchainV3 = /** @class */ (function (_super) {
      * and port.
      * @param {MspCryptoField} params.msp - The msp crypto data.
      * @param {string} params.mspId - The MSP id that is related to this component.
+     * @param {string} [params.id] - The unique identifier of this component. Must start with a letter, be lowercase and
+     * only contain letters and numbers. If `id` is not provide a component id will be generated using the field
+     * `display_name` as the base.
      * @param {string} [params.apiUrl] - The gRPC URL for the peer. Typically, client applications would send requests to
      * this URL. Include the protocol, hostname/ip and port.
      * @param {string} [params.location] - Indicates where the component is running.
@@ -626,6 +641,7 @@ var BlockchainV3 = /** @class */ (function (_super) {
             'grpcwp_url': _params.grpcwpUrl,
             'msp': _params.msp,
             'msp_id': _params.mspId,
+            'id': _params.id,
             'api_url': _params.apiUrl,
             'location': _params.location,
             'operations_url': _params.operationsUrl,
@@ -848,6 +864,9 @@ var BlockchainV3 = /** @class */ (function (_super) {
      *
      * This field should only be set if you are creating a new OS cluster or when appending to an unknown (external) OS
      * cluster. An unknown/external cluster is one that this IBP console has not imported or created.
+     * @param {string} [params.id] - The unique identifier of this component. Must start with a letter, be lowercase and
+     * only contain letters and numbers. If `id` is not provide a component id will be generated using the field
+     * `display_name` as the base.
      * @param {string} [params.clusterId] - This field should only be set if you are appending a new raft node to an
      * **existing** raft cluster. When appending to a known (internal) OS cluster set `cluster_id` to the same value used
      * by the OS cluster. When appending to an unknown (external) OS cluster set `cluster_id` to a unique string.
@@ -860,7 +879,7 @@ var BlockchainV3 = /** @class */ (function (_super) {
      * node as a consenter to the system-channel by using Fabric-APIs. Then, init this node by sending the updated
      * system-channel config-block with the [Submit config block to orderer](#submit-block) API. The node will not be
      * usable until these steps are completed.
-     * @param {string} [params.externalAppend] - Set to `true` only if you are appending to an unknown (external) OS
+     * @param {boolean} [params.externalAppend] - Set to `true` only if you are appending to an unknown (external) OS
      * cluster. Else set it to `false` or omit the field. An unknown/external cluster is one that this IBP console has not
      * imported or created.
      * @param {ConfigOrdererCreate[]} [params.configOverride] - An array of configuration override objects. 1 object per
@@ -893,6 +912,7 @@ var BlockchainV3 = /** @class */ (function (_super) {
             'display_name': _params.displayName,
             'crypto': _params.crypto,
             'cluster_name': _params.clusterName,
+            'id': _params.id,
             'cluster_id': _params.clusterId,
             'external_append': _params.externalAppend,
             'config_override': _params.configOverride,
@@ -929,8 +949,8 @@ var BlockchainV3 = /** @class */ (function (_super) {
      * created by this or another IBP console.
      *
      * @param {Object} params - The parameters to send to the service.
-     * @param {string} params.clusterName - A descriptive name for an ordering service. The parent IBP console tile
-     * displays this name.
+     * @param {string} params.clusterName - A descriptive name for the ordering service. The parent IBP console orderer
+     * tile displays this name.
      * @param {string} params.displayName - A descriptive base name for each ordering node. One or more child IBP console
      * tiles display this name.
      * @param {string} params.grpcwpUrl - The gRPC web proxy URL in front of the orderer. Include the protocol,
@@ -939,7 +959,10 @@ var BlockchainV3 = /** @class */ (function (_super) {
      * @param {string} params.mspId - The MSP id that is related to this component.
      * @param {string} [params.apiUrl] - The gRPC URL for the orderer. Typically, client applications would send requests
      * to this URL. Include the protocol, hostname/ip and port.
-     * @param {string} [params.clusterId] - A unique id to identify this rafter cluster. Generated if not provided.
+     * @param {string} [params.clusterId] - A unique id to identify this ordering service cluster.
+     * @param {string} [params.id] - The unique identifier of this component. Must start with a letter, be lowercase and
+     * only contain letters and numbers. If `id` is not provide a component id will be generated using the field
+     * `display_name` as the base.
      * @param {string} [params.location] - Indicates where the component is running.
      * @param {string} [params.operationsUrl] - Used by Fabric health checker to monitor the health status of this orderer
      * node. For more information, see [Fabric
@@ -965,6 +988,7 @@ var BlockchainV3 = /** @class */ (function (_super) {
             'msp_id': _params.mspId,
             'api_url': _params.apiUrl,
             'cluster_id': _params.clusterId,
+            'id': _params.id,
             'location': _params.location,
             'operations_url': _params.operationsUrl,
             'system_channel_id': _params.systemChannelId,
@@ -996,8 +1020,8 @@ var BlockchainV3 = /** @class */ (function (_super) {
      * @param {Object} params - The parameters to send to the service.
      * @param {string} params.id - The `id` of the component to modify. Use the [Get all components](#list_components) API
      * to determine the component id.
-     * @param {string} [params.clusterName] - A descriptive name for an ordering service. The parent IBP console tile
-     * displays this name.
+     * @param {string} [params.clusterName] - A descriptive name for the ordering service. The parent IBP console orderer
+     * tile displays this name.
      * @param {string} [params.displayName] - A descriptive base name for each ordering node. One or more child IBP
      * console tiles display this name.
      * @param {string} [params.apiUrl] - The gRPC URL for the orderer. Typically, client applications would send requests

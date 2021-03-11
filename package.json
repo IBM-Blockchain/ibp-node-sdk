@@ -21,7 +21,7 @@
 	"dependencies": {
 		"@types/extend": "^3.0.1",
 		"extend": "^3.0.2",
-		"ibm-cloud-sdk-core": "2.7.*"
+		"ibm-cloud-sdk-core": "^2.8.1"
 	},
 	"devDependencies": {
 		"typescript": "^4.0.5",
